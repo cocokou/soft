@@ -1,0 +1,71 @@
+
+
+
+<div class="d_lt Fm">
+    <form id="saveSearchForm" action="http://i.51job.com/userset/my_searcher.php?type=savesearcher" method="post">
+        <input type="hidden" id="email" name="email" value="">
+        <input type="hidden" id="keywordtype" name="keywordtype" value="2" style="display: none;">
+        <input type="hidden" id="keyword" name="keyword" value="">
+
+    </form>
+        <div class="c c_h" style="z-index: 4;">
+            <label>关键字</label>
+            <div class="el on">
+                <ul id="kwdTypeSelUl" class=""><li>全文<em class="dicon Dm"></em></li><li><a href="javascript:void(0);" onclick="kwdtypeChangeResult(1);">公司</a></li></ul>
+                <p class="ipt">
+                    <input type="text" maxlength="200" id="kwdselectid" placeholder="请输入关键字" vindex="-1" value="" class="mytxt at">
+                </p>
+                                <p class="addbut" id="work_position_click">
+                    <input type="button" id="work_position_input" placeholder="工作地点" value="深圳" class="c_999 at">
+                    <em class="dicon"></em>
+                </p>
+                <!-- lx -->
+                <div class="ul" id="KwdSearchResult" style="display:none">
+                </div>
+                <!-- searchhistory -->
+                <div class="ul" id="searchHistory" style="display: none;">
+                    <span class="tl off"><span class="bg b_his">历史记录</span></span>
+                                    <span class="li"><a href="javascript:void(0);">暂无</a></span></div>
+            </div>
+        </div>
+        <div class="c c_h c_bd">
+            <label>职能类别</label>
+            <div class="txt pointer" id="funtype_div" float-on="false">
+                <input class="ef " id="funtype_input" type="text" placeholder="--不限--" value="">
+                <span class="ic i_add" id="funtype_click"></span>
+                <div class="ul u3" id="funtype_list" layer_float_on="false" style="display: none;"></div>
+            </div>
+        </div>
+
+
+        <div class="c c1">
+            <label>工作类型</label>
+            <div class="txt pointer" id="jobterm_list" float-on="false">
+                <input class="ef " type="text" readonly="readonly" placeholder="--请选择--" value="" input-type="selectionlist">
+                <span class="ic i_arrow"></span>
+                <div class="ul"><span data-value="99" class="li" title="--请选择--">--请选择--</span><span data-value="01" class="li" title="全职">全职</span><span data-value="02" class="li" title="兼职">兼职</span><span data-value="03" class="li" title="实习全职">实习全职</span><span data-value="04" class="li" title="实习兼职">实习兼职</span></div>
+            </div>
+        </div>
+        <div class="btnbox p_sou">
+            <span class="p_but" onclick="kwdGoSearch($('#kwdselectid').val());">搜&nbsp;索</span>
+            <a href="javascript:void(0);" id="saveSearch" class="a">保存为搜索器</a>
+        </div>
+    </div>
+
+
+
+        <div class="c c_h" style="z-index: 4;">
+            <label>关键字</label>
+            <div class="el on">
+                <ul id="kwdTypeSelUl" class="">
+                    <li>全文<em class="dicon Dm"></em></li>
+                    <li><a href="javascript:void(0);" onclick="kwdtypeChangeResult(1);">公司</a></li>
+                </ul>
+                <p class="ipt">
+                    <input type="text" maxlength="200" id="kwdselectid" placeholder="请输入关键字" vindex="-1" value="" class="mytxt at">
+                </p>
+                </div>
+
+        </div>
+
+<script>
