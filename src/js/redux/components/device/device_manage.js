@@ -95,26 +95,8 @@ class SummaryPanel extends React.Component {
  
           <Content style={contentStyle}>
           Summary
-    {        // <Row gutter={16}>
-            //   <Col style = {{height:60, border:'2px solid #4ca64c',borderRadius:5}}  span={12}>
-            //     <div className="gutter-box" style={{margin:10}}><Icon type="check-circle" style={{ color: '#4ca64c' }} /> 正常设备数：<a href=""> 666</a>
-            //     </div>
-            //   </Col>
 
-            //   <Col style = {{height:50, border:'2px solid #ff4c4c'}} span={12}>
-            //     <div className="gutter-box"><Icon type="close-circle" style={{ color: '#ff4c4c' }} /> 异常设备数： <a href="">22</a>
-            //     </div>       
-            //   </Col>
-
-            //   <Col className="gutter-row" span={12}>
-            //     <div className="gutter-box"><Icon type="info-circle" style={{ color: '#428bca' }} /> 未登记设备：<a href="">12</a>
-            //     </div>
-            //   </Col>
-
-            // </Row>
-          }
-
-            <Row gutter={16} style={{minWidth:890}}>
+            <Row gutter={16} style={{minWidth:880}}>
               <Col span={8}>
                 <div className="gutter-box" style = {{height:80, border:'2px solid #4ca64c',borderRadius:5}}  > 
                 <div style={{margin:'20px'}}><Icon type="check-circle" style={{ color: '#4ca64c' }} /> 正常设备数：<a href=""> 666</a></div>
@@ -135,33 +117,9 @@ class SummaryPanel extends React.Component {
 
             </Row>
 
-
-            <Row gutter={16} style={{minWidth:890}}>
-              <Col span={8}>
-                <div className="gutter-box" style = {{height:80, backgroundColor:'#4ca64c', color: "#fff", borderRadius:5}}  > 
-
-
-                <div style={{margin:'20px'}}><Icon type="check-circle" /> 正常设备数：<a href=""> 666</a></div>
-                </div>
-              </Col>
-
-              <Col  span={8}>
-                <div className="gutter-box" style = {{height:80, backgroundColor:'#ff4c4c', color: "#fff", borderRadius:5}}  > 
-                <div style={{margin:'20px'}}><Icon type="close-circle"  /> 异常设备数： <a href="">22</a></div>
-                </div>       
-              </Col>
-
-              <Col className="gutter-row" span={8}>
-                 <div className="gutter-box" style = {{height:80, backgroundColor:'#428bca', color: "#fff", borderRadius:5}}  > 
-               <div style={{margin:'20px'}}> <Icon type="info-circle"  /> 未登记设备：<a href="">12</a></div>
-                </div>
-              </Col>
-
-            </Row>
-
+           
+            
           </Content>
-
-
 
       </div>
     )
