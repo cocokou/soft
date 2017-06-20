@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { Input, Select, Button, Layout, Table, Icon, Breadcrumb, TreeSelect, Menu, Badge, Dropdown, Row, Col } from 'antd';
+import { Input, Select, Button, Layout, Table, Icon, Breadcrumb, TreeSelect, Dropdown, Row, Col } from 'antd';
 import Nav from '../common/pc_nav';
 import * as config from 'config/app.config.js';
 
@@ -50,8 +50,8 @@ class TopHeader extends React.Component {
     return (
       <div>
         <Breadcrumb style={{ margin: '12px 0' }}>
-          <Breadcrumb.Item>产品管理</Breadcrumb.Item>
-          <Breadcrumb.Item>产品管理</Breadcrumb.Item>
+          <Breadcrumb.Item>设备管理</Breadcrumb.Item>
+          <Breadcrumb.Item>查看设备</Breadcrumb.Item>
         </Breadcrumb>
       </div>
     )
@@ -68,49 +68,47 @@ class FilterHeader extends React.Component {
           <Search placeholder="请输入关键字" style={{ maxWidth: 200, marginRight: 60 }} />
           <Button type="primary" icon="search">Search</Button>
         </div>
-          <div style={{ lineHeight: 3 }}>
-      
-            <label style={{ width: 70 }}>设备状态：&nbsp; </label>
-            <TreeSelect
-              style={{ width: 200 }}
-              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-              treeData={treeData}
-              placeholder="--请选择--"
-              treeDefaultExpandAll
-              class='space-right'
-            />
-        
-         
-            <label style={{ marginLeft:60 }}>所属部门：&nbsp; </label>
-            <Select defaultValue=" -- 请选择 -- " style={{ width: 200 }}>
-              <Option value="A">A部门</Option>
-              <Option value="B">B部门</Option>
-              <Option value="C">C部门</Option>
-            </Select>
-              
-          </div>
-          <div style={{ lineHeight: 3 }}>
-            <label>设备位置：&nbsp; </label>
-            <TreeSelect
-              style={{ width: 200 }}
-              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-              treeData={treeData}
-              placeholder="--请选择--"
-              treeDefaultExpandAll
-              class='space-right'
-            />
-            <label style={{ marginLeft:60 }}>设备类型：&nbsp; </label>
-            <TreeSelect
-              style={{ width: 200 }}
-              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-              treeData={treeData}
-              placeholder="--请选择--"
-              treeDefaultExpandAll
-              class='space-right'
-            />
-          </div>
+        <div style={{ lineHeight: 3 }}>
+
+          <label style={{ width: 70 }}>设备状态：&nbsp; </label>
+          <TreeSelect
+            style={{ width: 200 }}
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            treeData={treeData}
+            placeholder="--请选择--"
+            treeDefaultExpandAll
+            class='space-right'
+          />
 
 
+          <label style={{ marginLeft: 60 }}>所属部门：&nbsp; </label>
+          <Select defaultValue=" -- 请选择 -- " style={{ width: 200 }}>
+            <Option value="A">A部门</Option>
+            <Option value="B">B部门</Option>
+            <Option value="C">C部门</Option>
+          </Select>
+        </div>
+
+        <div style={{ lineHeight: 3 }}>
+          <label>设备位置：&nbsp; </label>
+          <TreeSelect
+            style={{ width: 200 }}
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            treeData={treeData}
+            placeholder="--请选择--"
+            treeDefaultExpandAll
+            class='space-right'
+          />
+          <label style={{ marginLeft: 60 }}>设备类型：&nbsp; </label>
+          <TreeSelect
+            style={{ width: 200 }}
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            treeData={treeData}
+            placeholder="--请选择--"
+            treeDefaultExpandAll
+            class='space-right'
+          />
+        </div>
 
       </div>
     )
@@ -139,30 +137,28 @@ class SummaryPanel extends React.Component {
 
         <Content style={contentStyle}>
 
-
-          <Row gutter={16} style={{ maxWidth: 1500 }}>
+      
+          <Row gutter={16} style={{ maxWidth: 1500, marginTop: 20 }}>
             <Col span={8}>
               <div className="gutter-box" style={{ height: 80, backgroundColor: '#4ca64c', color: "#fff", borderRadius: 5 }}  >
-                <div style={{ margin: '20px' }}><Icon type="check-circle" /> 正常设备数：<a href=""> 666</a></div>
+                <div style={{ padding: '20px' }}><Icon type="check-circle" /> 正常设备数：<a href=""> 666</a></div>
               </div>
             </Col>
 
             <Col span={8}>
               <div className="gutter-box" style={{ height: 80, backgroundColor: '#ff4c4c', color: "#fff", borderRadius: 5 }}  >
-                <div style={{ margin: '20px' }}><Icon type="close-circle" /> 异常设备数： <a href="">22</a></div>
+                <div style={{ padding: '20px' }}><Icon type="close-circle" /> 异常设备数： <a href="">22</a></div>
               </div>
             </Col>
 
             <Col className="gutter-row" span={8}>
               <div className="gutter-box" style={{ height: 80, backgroundColor: '#428bca', color: "#fff", borderRadius: 5 }}  >
-                <div style={{ margin: '20px' }}> <Icon type="info-circle" /> 未登记设备：<a style={{ color: "#fff" }} href="">12</a></div>
+                <div style={{ padding: '20px' }}> <Icon type="info-circle" /> 未登记设备：<a style={{ color: "#fff" }} href="">12</a></div>
               </div>
             </Col>
 
           </Row>
-
         </Content>
-
 
       </div>
     )
@@ -231,7 +227,7 @@ const data = [{
   type: '固定式一体化读写器',
   status: '不正常',
   last_update_time: '2017-01-01 12:00',
-  org: 'B部门',  
+  org: 'B部门',
   location: '* * *',
 }, {
   id: 3,
@@ -258,7 +254,7 @@ const data = [{
   type: '固定式一体化读写器',
   status: '不正常',
   last_update_time: '2017-01-01 12:00',
-  org: 'B部门',  
+  org: 'B部门',
   location: '* * *',
 }, {
   id: 6,
@@ -270,6 +266,13 @@ const data = [{
   org: 'C部门',
   location: '* * *',
 }];
+
+const rowSelection = {
+  onChange: (selectedRowKeys, selectedRows) => {
+    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+  },
+
+};
 
 export default class DeviceManage extends React.Component {
   constructor(props) {
@@ -290,7 +293,10 @@ export default class DeviceManage extends React.Component {
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: 280 }}>
             <FilterHeader />
-            <Table columns={columns} dataSource={data} />
+            <Button type="primary" style={{margin:20}}>创建设备</Button>
+            <Button type="primary">删除设备</Button>
+            <Button type="primary" style={{margin:20}}>暂停设备</Button>
+            <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
             <SummaryPanel />
 
 
