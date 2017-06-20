@@ -106,8 +106,8 @@ class TopHeader extends React.Component {
     return (
       <div>
         <Breadcrumb style={{ margin: '12px 0' }}>
-          <Breadcrumb.Item>产品管理</Breadcrumb.Item>
-          <Breadcrumb.Item>产品管理</Breadcrumb.Item>
+          <Breadcrumb.Item>设备管理</Breadcrumb.Item>
+          <Breadcrumb.Item>查看设备</Breadcrumb.Item>
         </Breadcrumb>
       </div>
     )
