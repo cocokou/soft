@@ -57,6 +57,8 @@ const getComponents = (routePath, accessControl) => (nexState, replace, callback
   switch (routePath) {
     case 'dm':
       require.ensure([], require => {
+        components.SummaryPannel = require('./components/device/summary.js').default;
+        components.testPannel = require('./components/device/test.js').default;
         components.DevicePannel = require('./components/device/device.js').default;
         components.DeviceManagePannel = require('./components/device/device_manage.js').default;
         callback();
@@ -160,6 +162,8 @@ const Root = () => (
           </Route>
 
           <Route path="dm" onEnter={getComponents('dm')}>
+            <Route path="summary" getComponents={get('SummaryPannel')} />
+            <Route path="test" getComponents={get('testPannel')} />
             <Route path="device" getComponents={get('DevicePannel')} />
             <Route path="manage-device" getComponents={get('DeviceManagePannel')} />
           </Route>

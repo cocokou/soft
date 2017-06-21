@@ -2,8 +2,12 @@ export default [{
   'key': 'device_management',
   "name": '设备管理',
   "link": [{
+    "key": 'DeviceAccess',
+    "name": "Summary",
+    "link": '/dm/summary'
+  },{
     "key": 'DeviceViewAccess',
-    "name": "查看设备",
+    "name": "设备列表",
     "link": '/dm/device'
   },{
     "key": 'DeviceManageAccess',
