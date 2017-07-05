@@ -21,80 +21,82 @@ class TopHeader extends React.Component {
   }
 }
 
-// var echarts = require('echarts');
-
-// 基于准备好的dom，初始化echarts实例
-// var myChart = echarts.init(document.getElementsByClassName('chart'));
-// // 绘制图表
-// myChart.setOption({
-//     title: { text: 'ECharts 入门示例' },
-//     tooltip: {},
-//     xAxis: {
-//         data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-//     },
-//     yAxis: {},
-//     series: [{
-//         name: '销量',
-//         type: 'bar',
-//         data: [5, 20, 36, 10, 10, 20]
-//     }]
-// });
 
 class Summary extends React.Component {
   render() {
     return (
-      <div style={{ width: '100%', padding: '30px' ,minHeight: 280}}>
-        <Row gutter={16}  >
-          <Col span={8}>
-            <Card title="设备使用情况" bordered={true}>
-            <img src="http://placehold.it/180x120" />
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card title="活跃设备数量" bordered={true}>Card content</Card>
-          </Col>
-          <Col span={8}>
-            <Card title="Card title" bordered={true}>Card content</Card>
-          </Col>
-        </Row>
-      </div>
-    )
-  }
-}
-
-class SummaryPanel extends React.Component {
-  render() {
-    return (
-      <div>
-
-        <Card title="Summary" style={{ width: '100%', minHeight: 280 }}>
-          <Row gutter={16} style={{fontSize: 24, marginTop: 20 }}>
+      <div style={{ width: '100%', padding: '30px'}}>
+          <Card title="Summary" style={{ width: '100%', minHeight: 240, marginBottom:20}}>
+          <Row gutter={32} style={{ maxWidth: 1500, fontSize: 22, marginTop: 20 }}>
+          
             <Col span={8}>
-              <div className="gutter-box" style={{ height: 80, backgroundColor: '#4ca64c', color: "#fff", borderRadius: 5 }}  >
-                <div style={{ padding: '20px' }}><Icon type="check-circle" /> 正常设备数：<a href=""> 666</a></div>
+              <div className="gutter-box" style={{ height: 80, backgroundColor: '#98d87d', color: "#fff", borderRadius: 5 }}  >
+                <div style={{ padding: '20px' }}><Icon type="check-circle" /> 活跃设备：<a href="/dm/device"> 666</a></div>
               </div>
             </Col>
 
             <Col span={8}>
-              <div className="gutter-box" style={{ height: 80, backgroundColor: '#ff4c4c', color: "#fff", borderRadius: 5 }}  >
-                <div style={{ padding: '20px' }}><Icon type="close-circle" /> 异常设备数： <a href="">22</a></div>
+              <div className="gutter-box" style={{ height: 80, backgroundColor: '#f27b71', color: "#fff", borderRadius: 5 }}  >
+
+                <div style={{ padding: '20px' }}><Icon type="close-circle" /> 异常设备： <a href="/dm/device">22</a></div>
               </div>
             </Col>
 
             <Col className="gutter-row" span={8}>
-              <div className="gutter-box" style={{ height: 80, backgroundColor: '#428bca', color: "#fff", borderRadius: 5 }}  >
-                <div style={{ padding: '20px' }}> <Icon type="info-circle" /> 未登记设备：<a style={{ color: "#fff" }} href="">12</a></div>
+              <div className="gutter-box" style={{ height: 80, backgroundColor: '#49a9ee', color: "#fff", borderRadius: 5 }}  >
+                <div style={{ padding: '20px' }}> <Icon type="info-circle" /> 未配置设备：<a style={{ color: "#fff" }} href="/dm/device">12</a></div>
               </div>
             </Col>
-
           </Row>
         </Card>
+
+        <Row gutter={16} style={{marginBottom:20}}>
+          <Col span={8}>
+            <Card title="设备分级展示" bordered={true} style={{height:220}}>
+            1，  对于设备要有层级管理，例如，集团公司/分公司/一号工厂/设备，对这些层级分布给予展示。
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card title="设备位置" bordered={true} style={{height:220}}>
+            2，  需要有对于设备所在位置的虚拟分布给予展示。
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card title="当前活跃设备" bordered={true} style={{height:220}}>
+             3，  对当前活跃的设备进行展示。（这个你第一个图就类似）
+            </Card>
+          </Col>
+        </Row>
+
+       <Reports />
 
       </div>
     )
   }
 }
-
+function Reports() {
+  return (
+              <Card title="统计报表" style={{ width: '100%', minHeight: 240, marginBottom:20}}>
+         <Row gutter={16} >
+          <Col span={8}>
+            <Card title="区域统计" bordered={false} style={{height:220}}>
+            pie chart
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card title="位置统计" bordered={false} style={{height:220}}>
+            Card content
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card title="故障统计" bordered={false} style={{height:220}}>
+             Card content
+            </Card>
+          </Col>
+        </Row>
+        </Card>
+  )
+}
 
 export default class DeviceSummary extends React.Component {
 
@@ -107,10 +109,8 @@ export default class DeviceSummary extends React.Component {
           <Sider width={200} style={{ background: '#fff' }}>
             <Nav />
           </Sider>
-           
+          
             <Summary />
-
-
     
         </Layout>
       </div>

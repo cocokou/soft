@@ -19,3 +19,7 @@ export function getProductIngredients(){
 export function handleProductEvent(params){
   return post(url, 'handle_product_event', params);
 }
+
+export function getDeviceList(){
+  return post(url, 'app_dm_get_device_on_line', { companyId: config.default_company_id });
+}

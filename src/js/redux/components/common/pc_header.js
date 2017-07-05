@@ -46,7 +46,7 @@ export default class PCHeader extends React.Component{
             <Link to="/">
               <span class="logo" style={{minWidth:200}}>
                 <img src="/src/images/logo.png" alt="logo"/>
-                <span>Bear</span>
+                <span>迅远云</span>
               </span>
             </Link>
           </Col>
