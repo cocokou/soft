@@ -10,9 +10,13 @@ export default [{
     "name": "设备列表",
     "link": '/dm/device'
   },{
-    "key": 'DeviceManageAccess',
-    "name": "管理设备",
-    "link": '/dm/manage-device'
+    "key": 'DeviceOrg',
+    "name": "设备组",
+    "link": '/dm/org'
+  },{
+    "key": 'TopicAccess',
+    "name": "设备主题",
+    "link": '/dm/topic'
   }]
 },{
   'key': 'product_management',

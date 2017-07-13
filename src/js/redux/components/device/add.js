@@ -6,32 +6,32 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
 const { Content, Sider } = Layout;
-//部门选择数据
 
+//部门选择数据
 const orgData = [{
     label: '深圳',
     value: '深圳',
     key: '0-0',
     children: [{
         label: '科技园',
-        value: '/科技园',
+        value: '科技园',
         key: '0-0-1',
         children: [{
             label: '研发部',
-            value: '/研发部',
+            value: '研发部',
             key: '0-0-0-1',
         }, {
             label: '生产部',
-            value: '/生产部',
+            value: '生产部',
             key: '0-0-0-2',
         }, {
             label: '销售部',
-            value: '/销售部',
+            value: '销售部',
             key: '0-0-0-3',
         }]
     }, {
         label: '海岸城',
-        value: '/海岸城',
+        value: '海岸城',
         key: '0-0-2',
     }]
 }, {
@@ -39,45 +39,47 @@ const orgData = [{
     value: '北京',
     key: '0-1',
     children: [{
-        label: 'A部门',
-        value: '/A部门',
-        key: '0-1-1',
-    }, {
-        label: 'B部门',
-        value: '/B部门',
+        label: '科技园',
+        value: '科技园',
         key: '0-2-2',
         children: [{
-            label: 'B1',
-            value: '/B1',
+            label: '研发部',
+            value: '研发部',
             key: '0-2-2-1',
         }, {
-            label: 'B2',
-            value: '/B2',
+            label: '生产部',
+            value: '生产部',
             key: '0-2-2-2',
         }, {
-            label: 'B3',
-            value: '/B3',
+            label: '销售部',
+            value: '销售部',
             key: '0-2-2-3',
         }]
     }, {
-        label: 'C部门',
-        value: '/C部门',
+        label: 'A部门',
+        value: 'A部门',
+        key: '0-1-1',
+    },
+    {
+        label: 'B部门',
+        value: 'B部门',
         key: '0-2-3',
     }]
 }];
 
-const devicePosition = [{
-    label: '生产线L1',
-    value: '生产线L1',
-    key: 'Line1',
+
+const typeData = [{
+    label: "桌面式",
+    value: '桌面式',
+    key: '0-0-5',
 }, {
-    label: '仓库入口',
-    value: '仓库入口',
-    key: 'extrance',
+    label: "固定式",
+    value: '固定式',
+    key: '0-0-6',
 }, {
-    label: '仓库出口',
-    value: '仓库出口',
-    key: 'exit',
+    label: "多通道",
+    value: '多通道',
+    key: '0-0-7',
 }];
 
 //进度条数据
@@ -91,11 +93,10 @@ class RegistrationForm extends Component {
             loading: false,
             visible: false,
             current: 0,
-            username: '',
-            count: 0,
+            count: 12,
         };
     }
-
+         
     //进度条相关函数
     next() {
         const current = this.state.current + 1;
@@ -126,38 +127,31 @@ class RegistrationForm extends Component {
         e.preventDefault();
         let count = this.state.count + 1;
         this.setState({ count });
-        console.log(count);
-        const comment = {
-            id: count,
-            key: count,
-            name: this.props.form.getFieldValue('userName'),
-            description: '桌面式读写器',
-            status: '正常',
-            last_update_time: '2017-01-01 12:00',
-            org: this.props.form.getFieldValue('org'),
-            location: this.props.form.getFieldValue('position')
-        }
-        // alert("您已成功创建设备 "+this.props.form.getFieldValue('userName'));
-        /*console.log(this.props.form.getFieldsValue())*/
 
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
 
+                const comment = {
+                    id: count,
+                    key: count,
+                    name: values.name,
+                    status: '正常',
+                    type: values.type,
+                    org: values.org.join('')
+  
+                }
                 this.props.addDevice(comment)
-                this.setState({ current: 0, visible: false, count: count })
-
-
+                console.log(values)
             }
         });
-
+        this.setState({ current: 0, visible: false, count: count })
     }
 
+
     render() {
-        const { getFieldDecorator, getFieldProps } = this.props.form;
+        const { getFieldDecorator } = this.props.form;
         const { current, visible } = this.state;
-        const config = {
-            rules: [{ type: 'object', required: true, message: '请选择时间' }],
-        };
+
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
@@ -189,40 +183,19 @@ class RegistrationForm extends Component {
                     onOk={this.handleOk.bind(this)}
                     onCancel={this.handleCancel.bind(this)}
                     footer={[
-                             <div className="steps-action">
-                            {
-                                this.state.current > 0
-                                &&
-                                <Button type="default" onClick={() => this.prev()}>                                    上一步
-                                </Button>
-                            }
-                            {
-                                this.state.current < steps.length - 1
-                                &&
-                                <Button type="primary" onClick={() => this.next()}>下一步</Button>
-                            }
-                            {
-                                this.state.current < steps.length - 1
-                                &&
+                        <div className="steps-action">
+                             
                                 <Button type="default" onClick={this.handleCancel.bind(this)}>取消</Button>
-                            }
-                            {
-                                this.state.current === steps.length - 1
-                                &&
+                                                   
                                 <Button type="primary" onClick={this.handleSubmit.bind(this)}>确认</Button>
-                            }
-
-                        </div>                        
+                            
+                        </div>
                     ]}
                 >
-                    <Steps current={current}>
-                        {steps.map(item => <Step key={item.title} title={item.title} />)}
-                    </Steps>
+            
                     <div className="steps-content">
                         <Form>
-                            {
-                                this.state.current === steps.length - 3
-                                &&
+                          
                                 <FormItem
                                     {...formItemLayout}
                                     label={(
@@ -230,50 +203,40 @@ class RegistrationForm extends Component {
                                     )}
                                     hasFeedback
                                 >
-                                    {getFieldDecorator('nickname', {
-                                        rules: [{ required: true, message: '请输入设备名称', whitespace: true }],
+                                    {getFieldDecorator('name', {
+                                      rules: [{ required: true, message: '请输入' }],
                                     })(
-                                        <Input {...getFieldProps('userName') } />
+                                        <Input />
 
                                         )}
 
                                 </FormItem>
 
-                            }
-
-                            {
-                                this.state.current === steps.length - 2
-                                &&
+                        
                                 <FormItem
                                     {...formItemLayout}
                                     label="所属部门"
                                 >
-                                    {getFieldDecorator('residence', {
-                                        initialValue: ['请选择所属部门'],
+                                    {getFieldDecorator('org', {
                                         rules: [{ type: 'array', required: true, message: '请选择所属部门' }],
                                     })(
-                                        <Cascader options={orgData} {...getFieldProps('org') } />
+                                        <Cascader options={orgData} />
                                         )}
                                 </FormItem>
 
-                            }
-                            {
-                                this.state.current === steps.length - 1
-                                &&
+                     
 
                                 <FormItem
                                     {...formItemLayout}
-                                    label="设备位置"
+                                    label="设备类型"
                                 >
-                                    {getFieldDecorator('po', {
-                                        initialValue: ['a'],
-                                        rules: [{ type: 'array', required: true, message: '请选择设备位置' }],
+                                    {getFieldDecorator('type', {
+                                        rules: [{ required: true, message: '请选择设备类型' }],
                                     })(
-                                        <Cascader options={devicePosition} {...getFieldProps('position') } />
+                                        <Cascader options={typeData} />
                                         )}
                                 </FormItem>
 
-                            }
                         </Form>
                     </div>
                 </Modal>
@@ -284,7 +247,7 @@ class RegistrationForm extends Component {
 
 
 const WrappedRegistrationForm = Form.create()(RegistrationForm);
-class WatchManage extends React.Component {
+class CreateDevice extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -298,7 +261,5 @@ class WatchManage extends React.Component {
         )
     }
 }
-WatchManage.propTypes = {
-    addDevice: React.PropTypes.func
-}
-export default WatchManage
+
+export default CreateDevice

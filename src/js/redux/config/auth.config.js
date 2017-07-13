@@ -2,6 +2,11 @@ export default {
   auth: {
     "visitor": ["test_qrcode", "testAccess"],
     'productmanager': [
+      'device_management',
+      'DeviceAccess',
+      'DeviceViewAccess',
+      'DeviceOrg',
+      'TopicAccess', 
       'product_management',
       'ProductManageAccess',
       'ProductMapAccess',

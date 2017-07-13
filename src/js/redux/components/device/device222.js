@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { Input, Select, Button, Layout, Table, Icon, Breadcrumb, TreeSelect,Popconfirm, Cascader } from 'antd';
+import { Input, Select, Button, Layout, Table, Icon, Breadcrumb, TreeSelect, Dropdown, Row, Col, Card, Popconfirm, Cascader } from 'antd';
 import Nav from '../common/pc_nav';
 import * as config from 'config/app.config.js';
 import Add from './add'
 
 const { Content, Sider } = Layout;
 const Search = Input.Search;
-
 const treeData=[];
 const statusData = [{
     label:"全选",
@@ -31,16 +30,16 @@ const typeData=[{
     value:'',
     key:'0-0-4',
 },{
-    label:"桌面式读写器",
-    value:'桌面式读写器',
+    label:"桌面式",
+    value:'桌面式',
     key:'0-0-5',
 },{
-    label:"固定式一体化读写器",
-    value:'固定式一体化读写器',
+    label:"固定式",
+    value:'固定式',
     key:'0-0-6',
 },{
-    label:"固定式多通道读写器",
-    value:'固定式多通道读写器',
+    label:"多通道",
+    value:'多通道',
     key:'0-0-7',
 }];
 
@@ -107,16 +106,16 @@ const deviceData = [{
     id: 1,
     key: 1,
     name: 'R2000',
-    type: '桌面式读写器',
+    type: '桌面式',
     status: '正常',
-    last_update_time: '2019-01-01 12:00',
+    last_update_time: '2017-01-01 12:00',
     org: '深圳科技园研发部',
     location: '* * *',
 }, {
     id: 2,
     key: 2,
     name: 'F5019-H',
-    type: '固定式一体化读写器',
+    type: '固定式',
     status: '正常',
     last_update_time: '2017-01-01 12:00',
     org: '深圳科技园生产部',
@@ -125,7 +124,7 @@ const deviceData = [{
     id: 3,
     key: 3,
     name: 'F5880-H',
-    type: '固定式多通道读写器',
+    type: '多通道',
     status: '未登记',
     last_update_time: '2017-01-01 12:00',
     org: '深圳科技园销售部',
@@ -134,7 +133,7 @@ const deviceData = [{
     id: 4,
     key: 4,
     name: 'R2000',
-    type: '桌面式读写器',
+    type: '桌面式',
     status: '正常',
     last_update_time: '2017-01-01 12:00',
     org: '深圳科技园研发部',
@@ -143,7 +142,7 @@ const deviceData = [{
     id: 5,
     key: 5,
     name: 'F5019-H',
-    type: '固定式一体化读写器',
+    type: '固定式',
     status: '正常',
     last_update_time: '2017-01-01 12:00',
     org: '北京科技园研发部',
@@ -152,7 +151,7 @@ const deviceData = [{
     id: 6,
     key: 6,
     name: 'F5880-H',
-    type: '固定式多通道读写器',
+    type: '多通道',
     status: '未登记',
     last_update_time: '2017-01-01 12:00',
     org: '北京科技园生产部',
@@ -161,7 +160,7 @@ const deviceData = [{
     id: 7,
     key: 7,
     name: 'R2000',
-    type: '固定式多通道读写器',
+    type: '多通道',
     status: '不正常',
     last_update_time: '2017-01-01 12:00',
     org: '北京科技园生产部',
@@ -170,7 +169,7 @@ const deviceData = [{
     id: 8,
     key: 8,
     name: 'R2000',
-    type: '固定式多通道读写器',
+    type: '多通道',
     status: '不正常',
     last_update_time: '2017-01-01 12:00',
     org: '北京科技园生产部',
@@ -179,7 +178,7 @@ const deviceData = [{
     id: 9,
     key: 9,
     name: 'F5880-H',
-    type: '固定式一体化读写器',
+    type: '固定式',
     status: '不正常',
     last_update_time: '2017-01-01 12:00',
     org: '北京科技园销售部',
@@ -188,7 +187,7 @@ const deviceData = [{
     id: 10,
     key: 10,
     name: 'F5880-H',
-    type: '固定式一体化读写器',
+    type: '固定式',
     status: '不正常',
     last_update_time: '2017-01-01 12:00',
     org: '北京A部门',
@@ -197,7 +196,7 @@ const deviceData = [{
     id: 11,
     key: 11,
     name: 'F5880-H',
-    type: '固定式一体化读写器',
+    type: '固定式',
     status: '正常',
     last_update_time: '2017-01-01 12:00',
     org: '北京A部门',
@@ -206,7 +205,7 @@ const deviceData = [{
     id: 12,
     key: 12,
     name: 'F5880-H',
-    type: '固定式一体化读写器',
+    type: '固定式',
     status: '未登记',
     last_update_time: '2017-01-01 12:00',
     org: '深圳科技园研发部',
@@ -214,23 +213,23 @@ const deviceData = [{
 }];
 
 
-
+const Option = Select.Option;
 class TopHeader extends React.Component {
-    render() {
-        return (
-            <div>
-                <Breadcrumb style={{ margin: '12px 0' }}>
-                    <Breadcrumb.Item>设备管理</Breadcrumb.Item>
-                    <Breadcrumb.Item>查看设备</Breadcrumb.Item>
-                </Breadcrumb>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        <Breadcrumb style={{ margin: '12px 0' }}>
+          <Breadcrumb.Item>设备管理</Breadcrumb.Item>
+          <Breadcrumb.Item>查看设备</Breadcrumb.Item>
+        </Breadcrumb>
+      </div>
+    )
+  }
 }
 
 class FilterHeader extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
         this.state = {
             keyword: undefined,
             searchText: '',
@@ -239,10 +238,9 @@ class FilterHeader extends React.Component {
             value2:'',
             valueOrg:'',
         }
-    }
+  }
 
-
-    //搜索
+  //搜索
     onInputChange(e){
         this.setState({ searchText: e.target.value});
         /*this.setState({ value1:e.target.value })*/
@@ -272,9 +270,8 @@ class FilterHeader extends React.Component {
         this.props.onSelectFirst(value1,value2,valueOrg);
 }
 
-    //选择
-
-    render() {
+ 
+  render() {
         return (
             <div className="panel search">
                 <div style={{ lineHeight: 3 }}>
@@ -326,14 +323,12 @@ class FilterHeader extends React.Component {
 
             </div>
         )
-    }
-
+  }
 }
 
 class ETable extends React.Component {
-
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
         this.state = {
             dataSource:deviceData,
             figureSource:deviceData,
@@ -346,209 +341,196 @@ class ETable extends React.Component {
             number:0
         };
   
- 
-
-        this.columns = [{
+    this.onDelete = this.onDelete.bind(this);
+    this.addDevice = this.addDevice.bind(this);
+    this.handleSelectedDelete = this.handleSelectedDelete.bind(this);
+    this.columns = [{
             title: '编号',
             dataIndex: 'id',
             key: 'id',
             render: id => <a href="#">{id}</a>,
         }, {
-            title: '设备名称',
-            dataIndex: 'name',
-            key: 'name',
-        }, {
-            title: '设备状态',
-            dataIndex: 'status',
-            key: 'status',
-
-            onFilter:null,
-        }, {
-            title: '所属部门',
-            dataIndex: 'org',
-            key: 'org'
-        }, {
-            title: '设备类型',
-            dataIndex: 'type',
-            key: 'type'
-        }, {
-            title: '状态更新时间',
-            dataIndex: 'last_update_time',
-            key: 'last_update_time'
-        }, {
-            title: '设备位置',
-            dataIndex: 'location',
-            key: 'location'
-        }, {
-            title: '操作',
-            key: 'action',
-            render: (text, record, index) => (
-                <div>
+      title: '设备名称',
+      dataIndex: 'name',
+      key: 'name',
+    }, {
+      title: '设备状态',
+      dataIndex: 'status',
+      key: 'status',
+      onFilter:null
+    }, {
+      title: '所属部门',
+      dataIndex: 'org',
+      key: 'org'
+    }, {
+      title: '设备类型',
+      dataIndex: 'type',
+      key: 'type'
+    }, {
+      title: '设备位置',
+      dataIndex: 'location',
+      key: 'location'
+    }, {
+      title: '设备影子',
+      dataIndex: 'metadata',
+      key: 'metadata',
+      render: (text, record, index) => (
+        <span>
+          <a href="#">编辑</a>
+        </span>
+      ),
+    }, {
+      title: '操作',
+      key: 'action',
+      render: (text, record, index) => (
+        <div>
           <span>
-            <a href="#">查看</a>
+            <a href="#">禁用</a>
           </span>
-                    <span className="ant-divider" />
-                    <span>
-            <a href="#">编辑</a>
+          <span className="ant-divider" />
+          <span>
+            <a href="#">连接协议详情</a>
           </span>
-                    <span className="ant-divider" />
-                    <span>
-            <Popconfirm title="设备删除后不能恢复，确定要删除这台设备吗？" placement="leftBottom" okText="删除" cancelText="取消">
+          <span className="ant-divider" />
+          <span>
+            <Popconfirm title="设备删除后不能恢复，确定要删除这台设备吗？" onConfirm={this.onDelete.bind(this, index)} placement="leftBottom" okText="删除" cancelText="取消">
               <a href="javascript:;" >删除</a>
             </Popconfirm>
 
           </span>
-                </div>
-            ),
-        }];
-    }
-
-    onSearch(searchText) {
-        // const {dataSource } = this.state;
-        let reg = new RegExp(searchText, 'gi');
-
-            this.setState({
-                dataSourceTwo: deviceData.map(function (record) {
-                    let type = record.type.match(reg);
-                    let org = record.org.match(reg);
-                    let Name = record.name.match(reg);
-                    let Status = record.status.match(reg);
-                    if (!type && !org && !Name && !Status) {
-
-                        return null;
-                    }
-                    return {
-                        status: record.status,
-                        org: record.org,
-                        name: record.name,
-                        location: record.location,
-                        last_update_time: record.last_update_time,
-                        id: record.id,
-                        type: record.type,
-                    };
-                }).filter(record => !!record),
-            });
-    }
-    onSelectFirst(selectFirst,selectTwo,selectOrg) {
-
-        let regFirst = new RegExp('^'+selectFirst);
-        let regTwo=new RegExp(selectTwo);
-        let regThree=new RegExp(selectOrg);
-        console.log(regThree);
-        console.log(regTwo);
-        this.setState({
-            dataSourceTwo: deviceData.map(function (record) {
-                let Status = record.status.match(regFirst);
-                let type = record.type.match(regTwo);
-                let Org=record.org.match(regThree);
-                console.log(record.org);
-                console.log(Org);
-                if (!type||!Status||!Org) {
-                    return null;
-                }if(type){
-                return {
-                    status: record.status,
-                    org: record.org,
-                    name: record.name,
-                    location: record.location,
-                    last_update_time: record.last_update_time,
-                    id: record.id,
-                    type: record.type,
-                }}
-                if(Status){
-                    return {
-                        status: record.status,
-                        org: record.org,
-                        name: record.name,
-                        location: record.location,
-                        last_update_time: record.last_update_time,
-                        id: record.id,
-                        type: record.type,
-                    }}
-                if(Org){
-                    return {
-                        status: record.status,
-                        org: record.org,
-                        name: record.name,
-                        location: record.location,
-                        last_update_time: record.last_update_time,
-                        id: record.id,
-                        type: record.type,
-                    }}
-            }).filter(record => !!record),
-        
-
-        });
-
-    }
+  
+        </div>
+      ),
+    }];
+  }
 
 
-
-
-
-
-    render() {
-        const rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                this.setState({
-                    selectedRowKeys: selectedRowKeys,
-                    selectedRows: selectedRows
-                })
-            },
+  onSearch(searchText) {
+    // const {dataSource } = this.state;
+    const reg = new RegExp(searchText, 'gi');
+    this.setState({
+      // filtered: !!searchText,
+      dataSource: deviceData.map(function (record) {
+        const match = record.type.match(reg);
+        const test = record.org.match(reg);
+        const Name = record.name.match(reg);
+        if (!match && !test && !Name) {
+          return null;
+        }
+        return {
+          status: record.status,
+          org: record.org,
+          name: record.name,
+          location: record.location,
+          last_update_time: record.last_update_time,
+          id: record.id,
+          type: record.type,
+          /* type: (
+               <span>
+     {record.type.split(reg).map((text, i) => (
+         i > 0 ? [<span>{match[0]}</span>, text] : text
+     ))}
+   </span>
+           ),*/
         };
-        const { dataSourceTwo }=this.state;
-        return (
-            <div>
-                <FilterHeader  onSearch={this.onSearch.bind(this)} onSelectFirst={this.onSelectFirst.bind(this)}/>
-           
+      }).filter(record => !!record),
+    });
+
+  }
 
 
-          
-                    <Button type="primary">删除设备</Button>
-             
+  onDelete(index) {
+    const dataSource = [...this.state.dataSource]
+    dataSource.splice(index, 1);//index为获取的索引，后面的 1 是删除几行  
+    this.setState({ dataSource });
+  }
 
-                <Button  style={{ margin: 20 }}>暂停设备</Button>
-                <Button >重启设备</Button>
-
-                <Table columns={this.columns}
-                       dataSource= {dataSourceTwo}
-                       rowSelection={rowSelection}
-                />
-            </div>
-
-        );
+  handleSelectedDelete() {
+    if (this.state.selectedRowKeys.length > 0) {
+      const dataSource = [...this.state.dataSource]
+      dataSource.splice(this.state.selectedRows, this.state.selectedRows.length)
+      this.setState({ dataSource });
     }
+    else {
+    }
+  }
+  //增加设备
+  addDevice(comment) {
+    const dataSource = this.state.dataSource;
+    dataSource.unshift(comment);
+    this.setState({ dataSource })
+  }
+  render() {
+    const rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => {
+        this.setState({
+          selectedRowKeys: selectedRowKeys,
+          selectedRows: selectedRows
+        })
+      },
+    };
+    return (
+      <div>
+        <FilterHeader dataForm={this.state.dataSource} onSearch={this.onSearch.bind(this)} />
+
+        <Row gutter={32} style={{ maxWidth: 1500, minWidth: 800, fontSize: 22, margin: 20 }}>
+
+          <Col span={3}>
+            <Add addDevice={this.addDevice} />
+          </Col>
+          <Col span={2}>
+            <Popconfirm title="设备删除后不能恢复，确定要删除所选设备吗？" onConfirm={this.handleSelectedDelete} okText="删除" cancelText="取消">
+              <Button type="primary" >删除</Button>
+            </Popconfirm>
+          </Col>
+          <Col span={2}>
+            <Button >暂停</Button>
+          </Col>
+          <Col span={2}>
+            <Button>重启</Button>
+          </Col>
+        </Row>
+
+        <Table columns={this.columns}
+          dataSource={this.state.dataSource}
+          rowSelection={rowSelection}
+        />
+
+      </div>
+
+    );
+  }
 
 }
 
 
 
 export default class ManageDevice extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            list: [],
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: [],
     }
-    render() {
-        var { list } = this.state;
+  }
+  render() {
+    var { list } = this.state;
 
-        return (
-            <div>
-                <TopHeader />
-                <Layout style={{ padding: '24px 0', background: '#fff' }}>
-                    <Sider width={200} style={{ background: '#fff' }}>
-                        <Nav />
-                    </Sider>
-                    <Content style={{ padding: '0 24px', minHeight: 280 }}>
+    return (
+      <div>
+        <TopHeader />
+        <Layout style={{ padding: '24px 0', background: '#fff' }}>
+          <Sider width={200} style={{ background: '#fff' }}>
+            <Nav />
+          </Sider>
+          <Content style={{ padding: '0 24px', minHeight: 280 }}>
 
 
-                        <ETable />
+            <ETable />
 
-                    </Content>
-                </Layout>
-            </div>
-        )
-    }
+          </Content>
+        </Layout>
+      </div>
+    )
+  }
 
 }

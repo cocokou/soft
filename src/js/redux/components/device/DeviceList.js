@@ -4,7 +4,7 @@ import { Input, Select, Button, Layout, Table, Icon, Breadcrumb, TreeSelect, Dro
 import Nav from '../common/pc_nav';
 import * as config from 'config/app.config.js';
 import Add from './add'
-import { getProductList } from 'actions/index';
+import { getDeviceList } from 'actions/index';
 
 
 class DeviceList extends React.Component {
@@ -33,6 +33,10 @@ class DeviceList extends React.Component {
       dataIndex: 'name',
       key: 'name',
     },{
+      title: '部门',
+      dataIndex: 'org',
+      key: 'org'
+    },{
       title: '设备类型',
       dataIndex: 'type',
       key: 'type'
@@ -50,19 +54,20 @@ class DeviceList extends React.Component {
       render: (text, record, index) => (
         <div>
           <span>
-            <a href="#">查看</a>
+            <a href="#">禁用</a>
           </span>
           <span className="ant-divider" />
           <span>
-            <a href="#">编辑</a>
+            <a href="#">连接协议详情</a>
           </span>
-          <span className="ant-divider" />
-          <span>
-            <Popconfirm title="设备删除后不能恢复，确定要删除这台设备吗？" onConfirm={this.onDelete.bind(this, index)} placement="leftBottom" okText="删除" cancelText="取消">
-              <a href="javascript:;" >删除</a>
-            </Popconfirm>
+{          // <span className="ant-divider" />
+          // <span>
+          //   <Popconfirm title="设备删除后不能恢复，确定要删除这台设备吗？" onConfirm={this.onDelete.bind(this, index)} placement="leftBottom" okText="删除" cancelText="取消">
+          //     <a href="javascript:;" >删除</a>
+          //   </Popconfirm>
 
-          </span>
+          // </span>
+        }
         </div>
       ),
     }];
@@ -150,7 +155,7 @@ showDetail() {
 
         <Table columns={this.columns}
           dataSource={this.state.dataSource}
-          rowSelection={rowSelection}
+          rowSelection={rowSelection} rowKey='id'
         />
  {console.log(this.state.dataSource)}
       </div>
@@ -159,7 +164,7 @@ showDetail() {
   }
 
   componentDidMount(){
-    getProductList()
+    getDeviceList()
     .done((data) => {
        this.setState({dataSource: data})
     })

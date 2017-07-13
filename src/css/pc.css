@@ -1,5 +1,3 @@
-html, body{
-}
 
 #mainContainer{
   overflow: auto;
@@ -423,7 +421,6 @@ ul,li{
   float: left;
   padding: 5px 10px;
 }
-
 
 
 
