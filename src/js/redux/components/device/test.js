@@ -1,554 +1,260 @@
-import React from 'react';
-import { Link } from 'react-router';
-import { Input, Select, Button, Layout, Table, Icon, Breadcrumb, TreeSelect,Popconfirm, Cascader } from 'antd';
-import Nav from '../common/pc_nav';
-import * as config from 'config/app.config.js';
-import Add from './add'
+import React, {Component} from 'react'
+import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+const FormItem = Form.Item;
+const Option = Select.Option;
+const AutoCompleteOption = AutoComplete.Option;
 
-const { Content, Sider } = Layout;
-const Search = Input.Search;
-
-const treeData=[];
-const statusData = [{
-    label:"全选",
-    value:'',
-    key:'0-0-0'
-}, {
-    label: '正常',
-    value: '正常',
-    key: '0-0-1',
-}, {
-    label: '不正常',
-    value: '不正常',
-    key: '0-0-2',
-}, {
-    label: '未登记',
-    value: '未登记',
-    key: '0-0-3',
-}];
-const typeData=[{
-    label:"全选",
-    value:'',
-    key:'0-0-4',
-},{
-    label:"桌面式读写器",
-    value:'桌面式读写器',
-    key:'0-0-5',
-},{
-    label:"固定式一体化读写器",
-    value:'固定式一体化读写器',
-    key:'0-0-6',
-},{
-    label:"固定式多通道读写器",
-    value:'固定式多通道读写器',
-    key:'0-0-7',
-}];
-
-const orgData = [{
-    label: '深圳',
-    value: '深圳',
-    key: '0-0',
+const residences = [{
+  value: 'zhejiang',
+  label: 'Zhejiang',
+  children: [{
+    value: 'hangzhou',
+    label: 'Hangzhou',
     children: [{
-        label: '科技园',
-        value: '科技园',
-        key: '0-0-1',
-        children: [{
-            label: '研发部',
-            value:'研发部',
-            key: '0-0-0-1',
-        }, {
-            label: '生产部',
-            value: '生产部',
-            key: '0-0-0-2',
-        }, {
-            label: '销售部',
-            value: '销售部',
-            key: '0-0-0-3',
-        }]
-    }, {
-        label: '海岸城',
-        value: '海岸城',
-        key: '0-0-2',
-    }]
+      value: 'xihu',
+      label: 'West Lake',
+    }],
+  }],
 }, {
-    label: '北京',
-    value: '北京',
-    key: '0-1',
-    children: [ {
-        label: '科技园',
-        value: '科技园',
-        key: '0-2-2',
-        children: [{
-            label: '研发部',
-            value: '研发部',
-            key: '0-2-2-1',
-        }, {
-            label: '生产部',
-            value: '生产部',
-            key: '0-2-2-2',
-        }, {
-            label: '销售部',
-            value: '销售部',
-            key: '0-2-2-3',
-        }]
-    }, {
-        label: 'A部门',
-        value: 'A部门',
-        key: '0-1-1',
-    },
-        {
-        label: 'B部门',
-        value: 'B部门',
-        key: '0-2-3',
-    }]
+  value: 'jiangsu',
+  label: 'Jiangsu',
+  children: [{
+    value: 'nanjing',
+    label: 'Nanjing',
+    children: [{
+      value: 'zhonghuamen',
+      label: 'Zhong Hua Men',
+    }],
+  }],
 }];
 
-const deviceData = [{
-    id: 1,
-    key: 1,
-    name: 'R2000',
-    type: '桌面式读写器',
-    status: '正常',
-    last_update_time: '2019-01-01 12:00',
-    org: '深圳科技园研发部',
-    location: '* * *',
-}, {
-    id: 2,
-    key: 2,
-    name: 'F5019-H',
-    type: '固定式一体化读写器',
-    status: '正常',
-    last_update_time: '2017-01-01 12:00',
-    org: '深圳科技园生产部',
-    location: '* * *',
-}, {
-    id: 3,
-    key: 3,
-    name: 'F5880-H',
-    type: '固定式多通道读写器',
-    status: '未登记',
-    last_update_time: '2017-01-01 12:00',
-    org: '深圳科技园销售部',
-    location: '* * *',
-}, {
-    id: 4,
-    key: 4,
-    name: 'R2000',
-    type: '桌面式读写器',
-    status: '正常',
-    last_update_time: '2017-01-01 12:00',
-    org: '深圳科技园研发部',
-    location: '* * *',
-}, {
-    id: 5,
-    key: 5,
-    name: 'F5019-H',
-    type: '固定式一体化读写器',
-    status: '正常',
-    last_update_time: '2017-01-01 12:00',
-    org: '北京科技园研发部',
-    location: '* * *',
-}, {
-    id: 6,
-    key: 6,
-    name: 'F5880-H',
-    type: '固定式多通道读写器',
-    status: '未登记',
-    last_update_time: '2017-01-01 12:00',
-    org: '北京科技园生产部',
-    location: '* * *',
-},{
-    id: 7,
-    key: 7,
-    name: 'R2000',
-    type: '固定式多通道读写器',
-    status: '不正常',
-    last_update_time: '2017-01-01 12:00',
-    org: '北京科技园生产部',
-    location: '* * *',
-},{
-    id: 8,
-    key: 8,
-    name: 'R2000',
-    type: '固定式多通道读写器',
-    status: '不正常',
-    last_update_time: '2017-01-01 12:00',
-    org: '北京科技园生产部',
-    location: '* * *',
-},{
-    id: 9,
-    key: 9,
-    name: 'F5880-H',
-    type: '固定式一体化读写器',
-    status: '不正常',
-    last_update_time: '2017-01-01 12:00',
-    org: '北京科技园销售部',
-    location: '* * *',
-},{
-    id: 10,
-    key: 10,
-    name: 'F5880-H',
-    type: '固定式一体化读写器',
-    status: '不正常',
-    last_update_time: '2017-01-01 12:00',
-    org: '北京A部门',
-    location: '* * *',
-},{
-    id: 11,
-    key: 11,
-    name: 'F5880-H',
-    type: '固定式一体化读写器',
-    status: '正常',
-    last_update_time: '2017-01-01 12:00',
-    org: '北京A部门',
-    location: '* * *',
-},{
-    id: 12,
-    key: 12,
-    name: 'F5880-H',
-    type: '固定式一体化读写器',
-    status: '未登记',
-    last_update_time: '2017-01-01 12:00',
-    org: '深圳科技园研发部',
-    location: '* * *',
-}];
-
-
-
-class TopHeader extends React.Component {
-    render() {
-        return (
-            <div>
-                <Breadcrumb style={{ margin: '12px 0' }}>
-                    <Breadcrumb.Item>设备管理</Breadcrumb.Item>
-                    <Breadcrumb.Item>查看设备</Breadcrumb.Item>
-                </Breadcrumb>
-            </div>
-        )
-    }
-}
-
-class FilterHeader extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            keyword: undefined,
-            searchText: '',
-            filtered: false,
-            value1:'',
-            value2:'',
-            valueOrg:'',
-        }
-    }
-
-
-    //搜索
-    onInputChange(e){
-        this.setState({ searchText: e.target.value});
-        /*this.setState({ value1:e.target.value })*/
-    }
-
-    click(){
-        const searchText = this.state.searchText;
-        this.props.onSearch(searchText);
-    }
-    //搜索
-    //选择
-
-    onChangeFirst(valueFirst){
-        this.setState({value1:valueFirst});
-    }
-    onChangeTwo(valueTwo){
-        this.setState({value2:valueTwo});
-    }
-    onChangeOrg(valueOrg){
-        const valueOrgs=valueOrg.join("");
-        this.setState({valueOrg:valueOrgs});
-    }
-
-    onSelect(){
-        const {value1,value2,valueOrg}=this.state;
-        console.log(valueOrg);
-        this.props.onSelectFirst(value1,value2,valueOrg);
-}
-
-    //选择
-
-    render() {
-        return (
-            <div className="panel search">
-                <div style={{ lineHeight: 3 }}>
-                    <label>搜索设备：&nbsp; </label>
-                    <Search placeholder="请输入关键字" style={{ maxWidth: 200, marginRight: 60 }}
-                            value={this.state.searchText} onChange={this.onInputChange.bind(this)} onPressEnter={this.click.bind(this)}/>
-                    <Button type="primary" icon="search" onClick={this.onSelect.bind(this)}>Search</Button>
-                </div>
-                <div style={{ lineHeight: 3 }}>
-
-                    <label style={{ width: 70 }}>设备状态：&nbsp; </label>
-                    <TreeSelect
-                        style={{ width: 200 }}
-                        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                        treeData={statusData}
-                        placeholder="--请选择--"
-                        treeDefaultExpandAll
-                        class='space-right'
-                        onChange={this.onChangeFirst.bind(this)}
-                        value={this.state.value1}
-                    />
-                    <label style={{ marginLeft: 60 }}>所属部门：&nbsp; </label>
-
-                    <Cascader options={orgData} onChange={this.onChangeOrg.bind(this)} changeOnSelect />
-                </div>
-
-                <div style={{ lineHeight: 3 }}>
-                    <label>设备位置：&nbsp; </label>
-                    <TreeSelect
-                        style={{ width: 200 }}
-                        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                        treeData={treeData}
-                        placeholder="--请选择--"
-                        treeDefaultExpandAll
-                        class='space-right'
-                    />
-                    <label style={{ marginLeft: 60 }}>设备类型：&nbsp; </label>
-                    <TreeSelect
-                        style={{ width: 200 }}
-                        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                        treeData={typeData}
-                        placeholder="--请选择--"
-                        treeDefaultExpandAll
-                        class='space-right'
-                        onChange={this.onChangeTwo.bind(this)}
-                        value={this.state.value2}
-                    />
-                </div>
-
-            </div>
-        )
-    }
-
-}
-
-class ETable extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            dataSource:deviceData,
-            figureSource:deviceData,
-            dataSourceTwo:deviceData,
-            index: '',
-            selectedRowKeys: [],
-            selectedRows: [],
-            record: '',
-            figure:0,
-            number:0
-        };
+class RegistrationForm extends React.Component {
   
- 
-
-        this.columns = [{
-            title: '编号',
-            dataIndex: 'id',
-            key: 'id',
-            render: id => <a href="#">{id}</a>,
-        }, {
-            title: '设备名称',
-            dataIndex: 'name',
-            key: 'name',
-        }, {
-            title: '设备状态',
-            dataIndex: 'status',
-            key: 'status',
-
-            onFilter:null,
-        }, {
-            title: '所属部门',
-            dataIndex: 'org',
-            key: 'org'
-        }, {
-            title: '设备类型',
-            dataIndex: 'type',
-            key: 'type'
-        }, {
-            title: '状态更新时间',
-            dataIndex: 'last_update_time',
-            key: 'last_update_time'
-        }, {
-            title: '设备位置',
-            dataIndex: 'location',
-            key: 'location'
-        }, {
-            title: '操作',
-            key: 'action',
-            render: (text, record, index) => (
-                <div>
-          <span>
-            <a href="#">查看</a>
-          </span>
-                    <span className="ant-divider" />
-                    <span>
-            <a href="#">编辑</a>
-          </span>
-                    <span className="ant-divider" />
-                    <span>
-            <Popconfirm title="设备删除后不能恢复，确定要删除这台设备吗？" placement="leftBottom" okText="删除" cancelText="取消">
-              <a href="javascript:;" >删除</a>
-            </Popconfirm>
-
-          </span>
-                </div>
-            ),
-        }];
+  constructor(props) {
+    super(props);
+    this.state = {
+    confirmDirty: false,
+    autoCompleteResult: [],
+  };
+  }
+  
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  }
+  handleConfirmBlur(e) {
+    const value = e.target.value;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  }
+  checkPassword(rule, value, callback)  {
+    const form = this.props.form;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('Two passwords that you enter is inconsistent!');
+    } else {
+      callback();
     }
-
-    onSearch(searchText) {
-        // const {dataSource } = this.state;
-        let reg = new RegExp(searchText, 'gi');
-
-            this.setState({
-                dataSourceTwo: deviceData.map(function (record) {
-                    let type = record.type.match(reg);
-                    let org = record.org.match(reg);
-                    let Name = record.name.match(reg);
-                    let Status = record.status.match(reg);
-                    if (!type && !org && !Name && !Status) {
-
-                        return null;
-                    }
-                    return {
-                        status: record.status,
-                        org: record.org,
-                        name: record.name,
-                        location: record.location,
-                        last_update_time: record.last_update_time,
-                        id: record.id,
-                        type: record.type,
-                    };
-                }).filter(record => !!record),
-            });
+  }
+  checkConfirm (rule, value, callback)  {
+    const form = this.props.form;
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['confirm'], { force: true });
     }
-    onSelectFirst(selectFirst,selectTwo,selectOrg) {
+    callback();
+  }
 
-        let regFirst = new RegExp('^'+selectFirst);
-        let regTwo=new RegExp(selectTwo);
-        let regThree=new RegExp(selectOrg);
-        console.log(regThree);
-        console.log(regTwo);
-        this.setState({
-            dataSourceTwo: deviceData.map(function (record) {
-                let Status = record.status.match(regFirst);
-                let type = record.type.match(regTwo);
-                let Org=record.org.match(regThree);
-                console.log(record.org);
-                console.log(Org);
-                if (!type||!Status||!Org) {
-                    return null;
-                }if(type){
-                return {
-                    status: record.status,
-                    org: record.org,
-                    name: record.name,
-                    location: record.location,
-                    last_update_time: record.last_update_time,
-                    id: record.id,
-                    type: record.type,
-                }}
-                if(Status){
-                    return {
-                        status: record.status,
-                        org: record.org,
-                        name: record.name,
-                        location: record.location,
-                        last_update_time: record.last_update_time,
-                        id: record.id,
-                        type: record.type,
-                    }}
-                if(Org){
-                    return {
-                        status: record.status,
-                        org: record.org,
-                        name: record.name,
-                        location: record.location,
-                        last_update_time: record.last_update_time,
-                        id: record.id,
-                        type: record.type,
-                    }}
-            }).filter(record => !!record),
-        
-
-        });
-
+  handleWebsiteChange  (value) {
+    let autoCompleteResult;
+    if (!value) {
+      autoCompleteResult = [];
+    } else {
+      autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
     }
+    this.setState({ autoCompleteResult });
+  }
 
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    const { autoCompleteResult } = this.state;
 
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 6 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 14 },
+      },
+    };
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0,
+        },
+        sm: {
+          span: 14,
+          offset: 6,
+        },
+      },
+    };
+    const prefixSelector = getFieldDecorator('prefix', {
+      initialValue: '86',
+    })(
+      <Select style={{ width: 60 }}>
+        <Option value="86">+86</Option>
+        <Option value="87">+87</Option>
+      </Select>
+    );
 
+    const websiteOptions = autoCompleteResult.map(website => (
+      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
+    ));
 
-
-
-    render() {
-        const rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                this.setState({
-                    selectedRowKeys: selectedRowKeys,
-                    selectedRows: selectedRows
-                })
-            },
-        };
-        const { dataSourceTwo }=this.state;
-        return (
-            <div>
-                <FilterHeader  onSearch={this.onSearch.bind(this)} onSelectFirst={this.onSelectFirst.bind(this)}/>
-           
-
-
-          
-                    <Button type="primary">删除设备</Button>
-             
-
-                <Button  style={{ margin: 20 }}>暂停设备</Button>
-                <Button >重启设备</Button>
-
-                <Table columns={this.columns}
-                       dataSource= {dataSourceTwo}
-                       rowSelection={rowSelection}
-                />
-            </div>
-
-        );
-    }
-
+    return (
+      <Form onSubmit={this.handleSubmit}>
+        <FormItem
+          {...formItemLayout}
+          label="E-mail"
+          hasFeedback
+        >
+          {getFieldDecorator('email', {
+            rules: [{
+              type: 'email', message: 'The input is not valid E-mail!',
+            }, {
+              required: true, message: 'Please input your E-mail!',
+            }],
+          })(
+            <Input />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="Password"
+          hasFeedback
+        >
+          {getFieldDecorator('password', {
+            rules: [{
+              required: true, message: 'Please input your password!',
+            }, {
+              validator: this.checkConfirm,
+            }],
+          })(
+            <Input type="password" />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="Confirm Password"
+          hasFeedback
+        >
+          {getFieldDecorator('confirm', {
+            rules: [{
+              required: true, message: 'Please confirm your password!',
+            }, {
+              validator: this.checkPassword,
+            }],
+          })(
+            <Input type="password" onBlur={this.handleConfirmBlur} />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label={(
+            <span>
+              Nickname&nbsp;
+              <Tooltip title="What do you want other to call you?">
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </span>
+          )}
+          hasFeedback
+        >
+          {getFieldDecorator('nickname', {
+            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+          })(
+            <Input />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="Habitual Residence"
+        >
+          {getFieldDecorator('residence', {
+            initialValue: ['zhejiang', 'hangzhou', 'xihu'],
+            rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }],
+          })(
+            <Cascader options={residences} />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="Phone Number"
+        >
+          {getFieldDecorator('phone', {
+            rules: [{ required: true, message: 'Please input your phone number!' }],
+          })(
+            <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="Website"
+        >
+          {getFieldDecorator('website', {
+            rules: [{ required: true, message: 'Please input website!' }],
+          })(
+            <AutoComplete
+              dataSource={websiteOptions}
+              onChange={this.handleWebsiteChange}
+              placeholder="website"
+            >
+              <Input />
+            </AutoComplete>
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="Captcha"
+          extra="We must make sure that your are a human."
+        >
+          <Row gutter={8}>
+            <Col span={12}>
+              {getFieldDecorator('captcha', {
+                rules: [{ required: true, message: 'Please input the captcha you got!' }],
+              })(
+                <Input size="large" />
+              )}
+            </Col>
+            <Col span={12}>
+              <Button size="large">Get captcha</Button>
+            </Col>
+          </Row>
+        </FormItem>
+        <FormItem {...tailFormItemLayout} style={{ marginBottom: 8 }}>
+          {getFieldDecorator('agreement', {
+            valuePropName: 'checked',
+          })(
+            <Checkbox>I have read the <a href="">agreement</a></Checkbox>
+          )}
+        </FormItem>
+        <FormItem {...tailFormItemLayout}>
+          <Button type="primary" htmlType="submit">Register</Button>
+        </FormItem>
+      </Form>
+    );
+  }
 }
 
+const WrappedRegistrationForm = Form.create()(RegistrationForm);
 
-
-export default class ManageDevice extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            list: [],
-        }
-    }
-    render() {
-        var { list } = this.state;
-
-        return (
-            <div>
-                <TopHeader />
-                <Layout style={{ padding: '24px 0', background: '#fff' }}>
-                    <Sider width={200} style={{ background: '#fff' }}>
-                        <Nav />
-                    </Sider>
-                    <Content style={{ padding: '0 24px', minHeight: 280 }}>
-
-
-                        <ETable />
-
-                    </Content>
-                </Layout>
-            </div>
-        )
-    }
-
+export default class Example extends Component {
+  render() {
+    return( <WrappedRegistrationForm />
+    )
+  }
 }

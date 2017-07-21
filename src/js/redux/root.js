@@ -60,6 +60,7 @@ const getComponents = (routePath, accessControl) => (nexState, replace, callback
         components.SummaryPannel = require('./components/device/summary.js').default;
         components.OrgPannel = require('./components/device/org.js').default;
         components.testPannel = require('./components/device/test.js').default;
+        components.addOrgPannel = require('./components/device/add.js').default;
         components.DevicePannel = require('./components/device/device.js').default;
         components.TopicPannel = require('./components/device/topic.js').default;
         callback();
@@ -165,7 +166,11 @@ const Root = () => (
           <Route path="dm" onEnter={getComponents('dm')}>
             <Route path="summary" getComponents={get('SummaryPannel')} />
             <Route path="org" getComponents={get('OrgPannel')} />
-            <Route path="test" getComponents={get('testPannel')} />
+
+            <Route path="test">
+              <IndexRoute getComponents={get('testPannel')} />
+              <Route path="add" getComponent={get('addOrgPannel')} />
+            </Route>
             <Route path="device" getComponents={get('DevicePannel')} />
             <Route path="topic" getComponents={get('TopicPannel')} />
           </Route>

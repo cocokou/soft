@@ -275,13 +275,19 @@ class FilterHeader extends React.Component {
     return (
       <div className="panel search">
         <div style={{ lineHeight: 3 }}>
+         
+        <div>
+        <label >所属部门：&nbsp; </label>
+          <Cascader options={orgData} onChange={this.onChangeOrg.bind(this)} changeOnSelect />
+          </div>
+
           <label>搜索设备：&nbsp; </label>
           <Search placeholder="请输入关键字" style={{ maxWidth: 200, marginRight: 60 }}
             value={this.state.searchText}
             onChange={this.onInputChange.bind(this)}
             onPressEnter={this.click.bind(this)}
           />
-          <Button type="primary" icon="search" onClick={this.onSelect.bind(this)}>Search</Button>
+         <Button type="primary" icon="search" onClick={this.onSelect.bind(this)}>Search</Button>
         </div>
         <div style={{ lineHeight: 3 }}>
 
@@ -296,22 +302,8 @@ class FilterHeader extends React.Component {
             onChange={this.onChangeFirst.bind(this)}
             value={this.state.value1}
           />
-          <label style={{ marginLeft: 60 }}>所属部门：&nbsp; </label>
 
-          <Cascader options={orgData} onChange={this.onChangeOrg.bind(this)} changeOnSelect />
-        </div>
-
-        <div style={{ lineHeight: 3 }}>
-          <label>设备位置：&nbsp; </label>
-          <TreeSelect
-            style={{ width: 200 }}
-            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-            treeData={treeData}
-            placeholder="--请选择--"
-            treeDefaultExpandAll
-            class='space-right'
-          />
-          <label style={{ marginLeft: 60 }}>设备类型：&nbsp; </label>
+         <label style={{ marginLeft: 60 }}>设备类型：&nbsp; </label>
           <TreeSelect
             style={{ width: 200 }}
             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
@@ -324,6 +316,7 @@ class FilterHeader extends React.Component {
           />
         </div>
 
+
       </div>
     )
   }
@@ -333,8 +326,8 @@ class ListDevices extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // dataSource: deviceData,
-      dataSource: [],
+      dataSource: deviceData,
+      // dataSource: [],
       figureSource: deviceData,
       index: '',
       selectedRowKeys: [],
@@ -353,47 +346,6 @@ class ListDevices extends React.Component {
       },
     };
 
-    const dataS = {
-      "header": {
-        "tokenOperator": sessionStorage.getItem("token") || '',
-        "tokenDevice": ""
-      },
-      "data": {
-        "event_id": "app_dm_get_device_on_line",
-        "param": {
-          "page_id": "1",
-          "page_size": "1"
-        }
-      }
-    };
-
-    $.ajax({
-      url: "http://119.23.132.97:8001/api",
-      type: "POST",
-      cache: false,
-      contentType: "application/json",
-      dataType: "json",
-      data: JSON.stringify(dataS),
-      success: (data) => {
-        let device = {};
-        data.data.map((d) => (
-          device = {
-            id: d.rowno,
-            key: d.rowno,
-            name: d.device_id,
-            last_update_time: d.login_time,
-          }
-        ))
-
-        const dataSource = [...this.state.dataSource]
-        dataSource.unshift(device);
-        this.setState({ dataSource })
-
-      }
-
-    });
-
-
 
     this.onDelete = this.onDelete.bind(this);
     this.handleSelectedDelete = this.handleSelectedDelete.bind(this);
@@ -407,34 +359,34 @@ class ListDevices extends React.Component {
       dataIndex: 'name',
       key: 'name',
       render: (text, record, index) => this.renderColumns(this.state.dataSource, index, 'name', text),
-    }, 
-    // {
-    //   title: '设备状态',
-    //   dataIndex: 'status',
-    //   key: 'status',
+    },
+    {
+      title: '设备状态',
+      dataIndex: 'status',
+      key: 'status',
 
-    //   onFilter: null,
-    // }, {
-    //   title: '所属部门',
-    //   dataIndex: 'org',
-    //   key: 'org'
-    // }, {
-    //   title: '设备类型',
-    //   dataIndex: 'type',
-    //   key: 'type',
+      onFilter: null,
+    }, {
+      title: '所属部门',
+      dataIndex: 'org',
+      key: 'org'
+    }, {
+      title: '设备类型',
+      dataIndex: 'type',
+      key: 'type',
 
-    // }, 
+    },
     {
       title: '状态更新时间',
       dataIndex: 'last_update_time',
       key: 'last_update_time'
-    }, 
+    },
     // {
     //   title: '设备位置',
     //   dataIndex: 'location',
     //   key: 'location'
     // },
-     {
+    {
       title: '操作',
       key: 'action',
       render: (text, record, index) => {
@@ -550,6 +502,7 @@ class ListDevices extends React.Component {
         let Name = record.name.match(reg);
         let Status = record.status.match(reg);
         if (!type && !org && !Name && !Status) {
+
           return null;
         }
         return {
@@ -701,6 +654,8 @@ class ListDevices extends React.Component {
   //     message(msg || '网络异常，请稍后再试')
   //   })
   // }
+
+
 
 }
 

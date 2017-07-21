@@ -40,7 +40,7 @@ class RegistrationForm extends Component {
             if (!err) {
 
                 let  comment = {
-                    id: values.type,
+                    key: values.type,
                     type: values.type,
                     topic: values.topic,
                     username: values.username,
@@ -52,9 +52,8 @@ class RegistrationForm extends Component {
                 
             }
         });
-
             this.setState({ loading: false, visible: false });
-
+            this.props.form.resetFields()
     }
 
     render() {

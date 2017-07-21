@@ -11,10 +11,6 @@ export default {
   test_auth: true, //开启测试权限时为true
   default_company_id: '1005',  //获取产品列表时公司id
   default_pid_id: '109', //梅菜扣肉产品id
-/*  requestUrl: 'http://119.23.132.97:8001/api',
-  trace_product: 'http://119.23.132.97:8001/api/trace_product',
-  product_info: 'http://119.23.132.97:8001/api/product',
-  requestUrl: 'http://sr.keyel.net/api',
-  trace_product: 'http://goofyluo.oicp.net/api/trace_product',
-  product_info: 'http://goofyluo.oicp.net/api/product',*/
+  // default_page_id: '1', 
+  // default_page_size: '1'
 }

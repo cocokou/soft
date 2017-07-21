@@ -20,7 +20,7 @@ function _end_callback(resolve, reject) {
     if (res.ok) {
       var { error_code, error_msg, data } = res.body;
       if(error_code != undefined){
-        if (error_code === 200001 || error_code === 200002 || error_code === 200003) {
+        if (error_code === 200001 || error_code === 200002 || error_code === 200003 || error_code === 0 ) {
           resolve(data, error_msg);
         }else if(error_code === 400002){
           sessionStorage.clear();

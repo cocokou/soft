@@ -116,14 +116,5 @@ export default class DeviceSummary extends React.Component {
       </div>
     )
   }
-  /*  componentDidMount(){
-          var options = config.default.fetchOptions('POST', 'GetProductList', {})
-          fetch(config.default.product_info, options)
-          .then(res => res.json())
-          .then(json => {
-            var data = json.data.map( m => {m.key=m.id; return m})
-            this.setState({list: data})
-          })
-          .catch(ex => {console.warn("parsed err: " + ex)})
-    }*/
+
 }

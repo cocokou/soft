@@ -30,7 +30,7 @@ class NormalLoginForm extends React.Component {
           {getFieldDecorator('password', {
             rules: [{ required: true, message: '请输入密码!' }],
           })(
-            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="密码" />
+            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="密码" onKeyDown={this.handleKeyDown}/>
           )}
         </FormItem>
         <FormItem>
@@ -42,6 +42,13 @@ class NormalLoginForm extends React.Component {
       </Form>
     );
   }
+
+  handleKeyDown(event) {
+  if(event.key == 'Enter'){
+    handleSubmit();
+  } 
+}
+
   handleSubmit(e){
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -84,24 +91,6 @@ export default class Login extends React.Component{
             </div>
             <div className="login-wrapper">
               <WrappedNormalLoginForm />
-             {/* <div class="input-box">
-                <Input
-                  class="input"
-                  ref="username"
-                  prefix={<Icon type="user" />}
-                 placeholder="用户名"
-                 size = "large" />
-              </div>
-              <div className="input-box">
-                <Input
-                  ref="password"
-                  class="input"
-                  type="password"
-                  prefix={<Icon type="lock" />}
-                 placeholder="密码"
-                 size = "large" />
-              </div>
-              <Button type="primary" class="login-btn" onClick={this.login.bind(this)}>登录</Button>*/}
             </div>
           </div>
         </div>
@@ -111,7 +100,7 @@ export default class Login extends React.Component{
   login(){
     var user = {
       username : 'admin',
-      userNickname: '超级大BOSS',
+      userNickname: 'Super Admin',
     }
     /*localStorage.login = true;*/
     /*sessionStorage.setItem('username', )*/

@@ -46,7 +46,7 @@ class RegistrationForm extends Component {
             if (!err) {
                 const comment = {
                     id: count,
-                    key: count,
+                    key: values.orgname.toString(),
                     device_qty: '0',
                     org: values.orgname,
                     created: '2017-01-01 12:00',
@@ -55,13 +55,14 @@ class RegistrationForm extends Component {
                 this.props.addOrg(comment)
             }
         });
-        this.setState({ current: 0, visible: false, count: count })
+        this.setState({ visible: false, count: count })
+        this.props.form.resetFields()
     }
 
 
-render() {
+    render() {
         const { getFieldDecorator } = this.props.form;
-        const { current, visible } = this.state;
+        const { visible } = this.state;
 
         const formItemLayout = {
             labelCol: {
@@ -73,39 +74,13 @@ render() {
                 sm: { span: 14 },
             },
         };
-      const FormComponent = visible
-        ?
-            <Form>
-
-                            <FormItem
-                                {...formItemLayout}
-                                label="设备路径 "
-                                hasFeedback
-                            >
-                                {getFieldDecorator('orgname', {
-                                    rules: [{ required: true, message: '请输入设备路径', whitespace: true }],
-                                })(
-                                    <Input />
-                                    )}
-
-                            </FormItem>
-
-                            <FormItem {...formItemLayout} label="描述 " >
-                                {getFieldDecorator('description'
-                                )(
-                                    <Input type="textarea" />
-                                    )}
-                            </FormItem>
-
-                        </Form>
-           : null;
 
         return (
-            <div>
-                <Button type="primary" onClick={this.showModal.bind(this)}>创建设备组</Button>
+            <div >
+                <Button type="primary" onClick={this.showModal.bind(this)}>创建部门</Button>
                 <Modal
                     visible={visible}
-                    title="创建设备组"
+                    title="创建部门"
                     onOk={this.handleOk.bind(this)}
                     onCancel={this.handleCancel.bind(this)}
                     footer={[
@@ -116,9 +91,29 @@ render() {
                     ]}
                 >
 
-                    <div className="steps-content">
-                      {FormComponent}
-                    </div>
+                    <Form>
+
+                        <FormItem
+                            {...formItemLayout}
+                            label="部门 "
+                            hasFeedback
+                        >
+                            {getFieldDecorator('orgname', {
+                                rules: [{ required: true, message: '请输入设备路径', whitespace: true }],
+                            })(
+                                <Input />
+                                )}
+
+                        </FormItem>
+
+                        <FormItem {...formItemLayout} label="描述 " >
+                            {getFieldDecorator('description'
+                            )(
+                                <Input type="textarea" />
+                                )}
+                        </FormItem>
+
+                    </Form>
                 </Modal>
             </div>
         );

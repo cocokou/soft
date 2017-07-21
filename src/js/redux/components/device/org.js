@@ -47,7 +47,8 @@ class Org extends React.Component {
         device_qty: 100,
         detail: '***',
         created: '2017-01-01 12:00',
-      },],
+      }],
+
       index: '',
       record: ''
     };
@@ -57,19 +58,21 @@ class Org extends React.Component {
       dataIndex: 'id',
       key: 'id',
       render: id => <a href="#">{id}</a>,
-    },{
-      title: '设备路径',
+    }, {
+      title: '所属部门',
       dataIndex: 'org',
       key: 'org',
     }, {
       title: '包含设备数',
       dataIndex: 'device_qty',
       key: 'device_qty'
-    }, {
-      title: '描述',
-      dataIndex: 'detail',
-      key: 'detail'
-    }, {
+    },
+    // {
+    //   title: '描述',
+    //   dataIndex: 'detail',
+    //   key: 'detail'
+    // },
+    {
       title: '创建时间',
       dataIndex: 'created',
       key: 'created'
@@ -85,7 +88,7 @@ class Org extends React.Component {
 
     this.onDelete = this.onDelete.bind(this);
     this.addOrg = this.addOrg.bind(this);
-    
+
   } // end of constructor
 
 
@@ -98,7 +101,7 @@ class Org extends React.Component {
 
   //增加设备组
   addOrg(comment) {
-    const dataSource =[...this.state.dataSource]
+    const dataSource = [...this.state.dataSource]
     dataSource.unshift(comment);
     this.setState({ dataSource })
   }
@@ -115,8 +118,13 @@ class Org extends React.Component {
             <Nav />
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: 280 }}>
-
-            <AddOrg addOrg={this.addOrg} />
+            <Row gutter={60}>
+              <Col span={4}>
+                <AddOrg addOrg={this.addOrg} /></Col>
+                <Col span={4}>
+                <Link to="/dm/test/add"><Button type="primary">Add Org</Button></Link>
+              </Col>
+            </Row>
             <Table columns={this.columns} rowKey="id"
               dataSource={this.state.dataSource}
             />
