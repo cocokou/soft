@@ -6,7 +6,6 @@ export default {
       'DeviceAccess',
       'DeviceViewAccess',
       'DeviceOrg',
-      'TopicAccess', 
       'product_management',
       'ProductManageAccess',
       'ProductMapAccess',

@@ -97,6 +97,7 @@ class RegistrationForm extends Component {
                                 {...formItemLayout}
                                 label="设备类型"
                                 hasFeedback
+
                             >
                                 {getFieldDecorator('type', {
                                     rules: [{ required: true, message: 'Please input device type' }],

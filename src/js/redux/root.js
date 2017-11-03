@@ -6,7 +6,8 @@ import history from 'history_instance';
 /*import PCIndex from './components/pc_index';
 import ProductManage from './components/product/product_manage';*/
 import MobileIndex from './components/mobile_index';
-import MobileProduct from './components/product/mobile_product';
+import { Provider } from 'react-redux'
+import { store } from './store'
 
 import { Entry, NoPermission } from './components/common/pc_body';
 import { MobileEntry } from './components/common/mobile_body';
@@ -59,129 +60,76 @@ const getComponents = (routePath, accessControl) => (nexState, replace, callback
       require.ensure([], require => {
         components.SummaryPannel = require('./components/device/summary.js').default;
         components.OrgPannel = require('./components/device/org.js').default;
+        components.roomPannel = require('./components/device/room.js').default;
         components.testPannel = require('./components/device/test.js').default;
-        components.addOrgPannel = require('./components/device/add.js').default;
+        components.positionPannel = require('./components/device/position.js').default;        
+        components.devicemonitorPannel = require('./components/device/devicemonitor.js').default;        
+        components.org2Pannel = require('./components/device/org2.js').default;
         components.DevicePannel = require('./components/device/device.js').default;
-        components.TopicPannel = require('./components/device/topic.js').default;
+        components.Device2Pannel = require('./components/device/device2.js').default;
+
         callback();
       })
       break;
-    case 'pm':
+
+      case 'am':
       require.ensure([], require => {
-        /*components = {...components,
-          'ProductPannel' : require('./components/product/product_manage.js'),
-        }*/
-        components.ProductPannel = require('./components/product/product_manage.js').default;
-        components.ProductDetailPannel = require('./components/product/mobile_product').default;
-        components.ProductFormPannel = require('./components/product/product_form').default;
-        components.ProductMapPannel = require('./components/product/product_map_manage').default;
-        callback();
-      });
-      break;
-    case 'am':
-      require.ensure([], require => {
-        components.UserManagePannel = require('./components/authority/user_manage.js').default;
-        components.RoleManagePannel = require('./components/authority/role_manage.js').default;
-        components.SysAuthManagePannel = require('./components/authority/system_auth.js').default;
-        components.UserFormPannel = require('./components/authority/user_form.js').default;
-        components.DeptRolePannel = require('./components/authority/dept_role_manage.js').default;
+        components.MenuManagePannel = require('./components/authority/menu.js').default;
+        // components.testPannel = require('./components/authority/test.js').default;
+        components.testPannel = require('./components/authority/test.js').default;
+        components.test2Pannel = require('./components/authority/test2.js').default;
+        components.emmaPannel = require('./components/authority/emma.js').default;
+    
         callback();
       })
       break;
-    case 'mm':
-      require.ensure([], require => {
-        components.ManufactureManagePannel = require('./components/manufacture/manu_manage.js').default;
-        callback();
-      })
-      break;
-    case 'test':
-      require.ensure([], require => {
-        components.BeltlineManangePannel = require('./components/test/beltline_form.js').default;
-        components.BeltlineFormPannel = require('./components/test/beltline_form.js').default;
-        callback();
-      })
-      break;
-    default:
-      break;
+
+    // case 'pm':
+    //   require.ensure([], require => {
+    //     components.roomPannel = require('./components/position/room.js').default;
+    //     callback();
+    //   })
+    //   break;
   }
 }
 
 const get = componentName => (location, callback) => {
+  
   callback(undefined, components[componentName]);
 }
 
-/*export default class Root extends React.Component{
-  render(){
-    return (
-      //这里替换了之前的Index,变成了程序的入口
-      <div>
-        <MediaQuery query='(min-device-width: 1224px)'>
-          <Router history={hashHistory}>
-            <Route path="/" component={Entry}>
-              <Route path="pm" onEnter={getComponents('pm')}>
-                <Route path="index" getComponent={get('ProductPannel')}>
-                </Route>
-              </Route>
 
-            </Route>
-          </Router>
-        </MediaQuery>
-        <MediaQuery query='(max-device-width: 1224px)'>
-          <Router history={hashHistory}>
-            <Route path="/" component={MobileIndex}></Route>
-            <Route path="/product/:id" component={MobileProduct}></Route> 
-          </Router>
-        </MediaQuery>
-      </div>
-    )
-  }
-}*/
 
 const Root = () => (
   //这里替换了之前的Index,变成了程序的入口
+  <Provider store={store}>
   <div>
+
     <MediaQuery query='(min-device-width: 1224px)'>
       <Router history={history}>
-        <Route path="/" component={Entry}>    
-          <Route path="pm" onEnter={getComponents('pm')}>
-            <Route path="product"  >
-              <IndexRoute getComponent={get('ProductPannel')}/>
-              <Route path="add" getComponent={get('ProductFormPannel')} />
-            </Route>
-            <Route onEnter={onEnter("ProductMapAccess")} path="productmap" getComponents={get('ProductMapPannel')} />
-          </Route>
-          <Route path="am" onEnter={getComponents('am')}>
-            <Route path="user">
-              <IndexRoute getComponent={get('UserManagePannel')} />
-              <Route path="add" getComponent={get('UserFormPannel')} />
-            </Route>
-            <Route path="role" getComponents={get('RoleManagePannel')} />
-            <Route path='sysauth' getComponents={get('SysAuthManagePannel')} />
-            <Route path='deptrole' getComponents={get('DeptRolePannel')} />
-          </Route>
-          <Route path="mm" onEnter={getComponents('mm')}>
-            <Route path="process" getComponents={get('ManufactureManagePannel')} />
-          </Route>
+        <Route path="/" component={Entry}>
 
           <Route path="dm" onEnter={getComponents('dm')}>
             <Route path="summary" getComponents={get('SummaryPannel')} />
+            <Route path="test" getComponents={get('testPannel')} />
+            <Route path="room" getComponents={get('roomPannel')} />
             <Route path="org" getComponents={get('OrgPannel')} />
-
-            <Route path="test">
-              <IndexRoute getComponents={get('testPannel')} />
-              <Route path="add" getComponent={get('addOrgPannel')} />
-            </Route>
+            <Route path="org2" getComponents={get('org2Pannel')} />
+            <Route path="position" getComponents={get('positionPannel')} />
             <Route path="device" getComponents={get('DevicePannel')} />
-            <Route path="topic" getComponents={get('TopicPannel')} />
+            <Route path="devicemonitor" getComponents={get('devicemonitorPannel')} />            
+            <Route path="device2" getComponents={get('Device2Pannel')} />
+
           </Route>
 
-          <Route path="test" onEnter={getComponents('test')}>
-            <Route path="qrcode" getComponents={get('QrcodeManagePannel')} />
-            <Route path="beltline">
-              <IndexRoute getComponents={get('BeltlineManangePannel')} />
-              <Route path="add" getComponents={get('BeltlineFormPannel')} />
-            </Route>
+          <Route path="am" onEnter={getComponents('am')}>
+            <Route path='menu' getComponents={get('MenuManagePannel')} />
+            <Route path='test' getComponents={get('testPannel')} />
+            <Route path='test2' getComponents={get('test2Pannel')} />
+            <Route path='emma' getComponents={get('emmaPannel')} />
+            <Route path='view' render={() => (<div>hello</div>)} />
           </Route>
+       
           <Route path="403" component={NoPermission} />
 
         </Route>
@@ -195,12 +143,13 @@ const Root = () => (
               </Route>
             </Route>*/}
         <Route path="/" component={MobileIndex} />
-        {/*<Route path="/pm/product/:id" component={MobileProduct}></Route>*/}
-        <Route path="/product/:id" component={MobileProduct}></Route>
-        {/*<Route path="/pm/product/:id" getComponent={get('ProductDetailPannel')} />*/}
+   
       </Router>
     </MediaQuery>
-  </div>
+  
+  </div>  
+  </Provider>
 )
 
-ReactDOM.render(<Root />, document.getElementById('mainContainer'));
+ReactDOM.render( <Root />, document.getElementById('mainContainer'));
+// ReactDOM.render(<Root />, document.getElementById('mainContainer'));

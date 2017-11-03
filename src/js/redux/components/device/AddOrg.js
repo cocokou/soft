@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Nav from '../common/pc_nav';
-import { Steps, Form, Input, Tooltip, Layout, Icon, Breadcrumb, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Modal, DatePicker } from 'antd';
+import { Steps, Form, Input, Tooltip, Layout, Icon, Breadcrumb, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Modal } from 'antd';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -46,10 +46,10 @@ class RegistrationForm extends Component {
             if (!err) {
                 const comment = {
                     id: count,
-                    key: values.orgname.toString(),
-                    device_qty: '0',
-                    org: values.orgname,
-                    created: '2017-01-01 12:00',
+                    key: values.name.toString(),
+                    name: values.name,
+                    parent_id: '',
+                    company_id: '',
                     detail: values.description
                 }
                 this.props.addOrg(comment)
@@ -98,7 +98,7 @@ class RegistrationForm extends Component {
                             label="部门 "
                             hasFeedback
                         >
-                            {getFieldDecorator('orgname', {
+                            {getFieldDecorator('name', {
                                 rules: [{ required: true, message: '请输入设备路径', whitespace: true }],
                             })(
                                 <Input />

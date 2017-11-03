@@ -29,8 +29,10 @@ module.exports = {
         exclude: /(node_modules)/,
         loader: 'babel-loader',
         query: {
-          presets: ['react', 'es2015'],
-          plugins: ['react-html-attrs'], //添加组件的插件配置
+          presets: ['react', 'env'],
+          plugins: ['react-html-attrs', "transform-object-rest-spread",'transform-class-properties'], //添加组件的插件配置
+          
+          
         },
         include: path.join(__dirname, 'src/js/redux'),
       },

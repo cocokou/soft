@@ -30,10 +30,10 @@ export default class PCHeader extends React.Component{
     const userShowMenu = (
       <Menu onSelect={this.clickHeaderMenu.bind(this)} >
         <Menu.Item key="0">
-          <a href="http://www.alipay.com/">个人</a>
+          <a href="http://localhost:8001/">个人</a>
         </Menu.Item>
         <Menu.Item key="1">
-          <a href="http://www.taobao.com/">重置密码</a>
+          <a href="http://localhost:8001/">重置密码</a>
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="logout" >退出</Menu.Item>
@@ -74,6 +74,8 @@ export default class PCHeader extends React.Component{
               <Dropdown overlay={userShowMenu}  trigger={['click']}>
                   <a className="ant-dropdown-link" href="#">
                      {(sessionStorage.getItem("role") == "productmanager" ? '产品经理' : '游客') + sessionStorage.getItem("username")}
+{                    //  {(sessionStorage.getItem("role") == "productmanager" ? '产品经理' : '游客') + sessionStorage.getItem("username")}
+}
                     <Icon type="down" />
                   </a>
               </Dropdown>

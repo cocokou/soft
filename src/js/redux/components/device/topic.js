@@ -4,7 +4,7 @@ import { Input, Select, Button, Layout, Table, Icon, Breadcrumb, TreeSelect, Dro
 import Nav from '../common/pc_nav';
 import * as config from 'config/app.config.js';
 import AddTopic from './addtopic';
-import { getDevicekinds } from 'actions/index';
+
 
 const { Content, Sider } = Layout;
 
@@ -174,7 +174,6 @@ class ManageTopic extends React.Component {
 
     this.addTopic = this.addTopic.bind(this);
   }
-
   //edit 
   renderColumns(data, index, key, text) {
 
@@ -195,7 +194,6 @@ class ManageTopic extends React.Component {
       onChange={value => this.handleChange(key, index, value)}
       status={statuss}
     />);
-
   }
 
   handleChange(key, index, value) {
@@ -237,7 +235,7 @@ class ManageTopic extends React.Component {
 
 
   //点击分页数
-  handChange(pagination, filters, sorter) {
+  handleChange(pagination, filters, sorter) {
     const dataSource = this.state.dataSource;
     console.log('Various parameters', pagination, filters, sorter);
 
@@ -263,26 +261,22 @@ class ManageTopic extends React.Component {
   render() {
     return (
       <div>
-
         <TopHeader />
         <Layout style={{ padding: '24px 0', background: '#fff' }}>
           <Sider width={200} style={{ background: '#fff' }}>
             <Nav />
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: 280 }}>
-            <h2 style={{ paddingBottom: 20, fontWeight: 500 }}>添加组织</h2>
+            <h2 style={{ paddingBottom: 20, fontWeight: 500 }}>添加设备类型</h2>
 
             <AddTopic addTopic={this.addTopic} />
             <Table columns={this.columns} 
               dataSource={this.state.dataSource}
-              onChange={this.handChange.bind(this)}
+              onChange={this.handleChange.bind(this)}
               pagination={{ pageSize: this.state.queryInfo.pageSize }}
             />
-
           </Content>
         </Layout>
-
-
       </div>
     );
   }

@@ -45,7 +45,7 @@ class NormalLoginForm extends React.Component {
 
   handleKeyDown(event) {
   if(event.key == 'Enter'){
-    handleSubmit();
+    handleSubmit(event);
   } 
 }
 
@@ -55,22 +55,25 @@ class NormalLoginForm extends React.Component {
       if (!err) {
         let { userName, password } = values;
         password = md5(password);
-        post("http://119.23.132.97/api", "user_login_with_mobile", {mobile: userName, pwhsh: password})
+        post("http://119.23.132.97/device-manager", "user_login_with_user_name", {user_name: userName, pwhsh: password})
           .done((data) => {
-            sessionStorage.setItem("username", userName);
-            sessionStorage.setItem("userid", data[0].id);
+            sessionStorage.setItem("username", data.name);
+            sessionStorage.setItem("userid", data.role_id);
             sessionStorage.setItem("login", "Y");
-            sessionStorage.setItem('token', data[0].tokenOperator);
-            if(data.length && data[0].roles == '[501]'){
-              sessionStorage.setItem("role", 'visitor')
-            }else if(data.length && data[0].roles == '[203]'){
+            sessionStorage.setItem('token', data.token);
+            if(data.length && data.role_id == '[201]'){
               sessionStorage.setItem("role", 'productmanager')
             }
+            // else if(data.length && data.roles == '[203]'){
+            //   sessionStorage.setItem("role", 'productmanager')
+            // }
             location.reload();
+            console.log(data)
           })
           .fail(() => {
             this.setState({err_msg: '登录失败！用户名或密码错误'})
-            sessionStorage.setItem("login", "N")
+            sessionStorage.setItem("login", "Y")
+            // sessionStorage.setItem("login", "N")
           })
       }
     });

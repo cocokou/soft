@@ -24,7 +24,11 @@ export function getDeviceList(){
   return post('http://119.23.132.97:8001/api', 'app_dm_get_device_on_line', { page_id: '1', page_size: '1' });
 }
 
-export function getDeviceKinds(){
-  return post(url, 'app_dm_get_device_kinds', { api_user_id: '1' });
+export function getOrgList(){
+  return post('http://119.23.132.97:8001/api', 'admin_get_sub_org', {});
+}
+
+export function getPeople(){
+  return post("http://119.23.132.97/device-manager/80", 'app_find_area_people', {"area_id":10016});
 }
 

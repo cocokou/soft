@@ -22,7 +22,16 @@ class TopHeader extends React.Component {
 }
 
 
-class Summary extends React.Component {
+export default class Summary extends React.Component {
+    onClickFrist(){
+        this.props.searchBySelect("正常")
+    }
+    onClickTwo(){
+        this.props.searchBySelect("不正常")
+    }
+    onClickThree(){
+        this.props.searchBySelect("未登记")
+    }
   render() {
     return (
       <div style={{ width: '100%', padding: '30px'}}>
@@ -31,26 +40,26 @@ class Summary extends React.Component {
           
             <Col span={8}>
               <div className="gutter-box" style={{ height: 80, backgroundColor: '#98d87d', color: "#fff", borderRadius: 5 }}  >
-                <div style={{ padding: '20px' }}><Icon type="check-circle" /> 活跃设备：<a href="/dm/device"> 666</a></div>
+                <div style={{ padding: '20px' }} onClick={this.onClickFrist.bind(this)}><a style={{ color: "#fff" }}><Icon type="check-circle" /> 活跃设备： {this.props.normal}</a></div>
               </div>
             </Col>
 
             <Col span={8}>
               <div className="gutter-box" style={{ height: 80, backgroundColor: '#f27b71', color: "#fff", borderRadius: 5 }}  >
 
-                <div style={{ padding: '20px' }}><Icon type="close-circle" /> 异常设备： <a href="/dm/device">22</a></div>
+                <div style={{ padding: '20px' }} onClick={this.onClickTwo.bind(this)}><a style={{ color: "#fff" }}><Icon type="close-circle" /> 异常设备： {this.props.unNormal}</a></div>
               </div>
             </Col>
 
             <Col className="gutter-row" span={8}>
               <div className="gutter-box" style={{ height: 80, backgroundColor: '#49a9ee', color: "#fff", borderRadius: 5 }}  >
-                <div style={{ padding: '20px' }}> <Icon type="info-circle" /> 未配置设备：<a style={{ color: "#fff" }} href="/dm/device">12</a></div>
+                <div style={{ padding: '20px' }} onClick={this.onClickThree.bind(this)}> <a style={{ color: "#fff" }}><Icon type="info-circle" /> 未配置设备：{this.props.unKnow}</a></div>
               </div>
             </Col>
           </Row>
         </Card>
 
-        <Row gutter={16} style={{marginBottom:20}}>
+{/*        <Row gutter={16} style={{marginBottom:20}}>
           <Col span={8}>
             <Card title="设备分级展示" bordered={true} style={{height:220}}>
             1，  对于设备要有层级管理，例如，集团公司/分公司/一号工厂/设备，对这些层级分布给予展示。
@@ -68,7 +77,7 @@ class Summary extends React.Component {
           </Col>
         </Row>
 
-       <Reports />
+       <Reports />*/}
 
       </div>
     )
@@ -98,7 +107,7 @@ function Reports() {
   )
 }
 
-export default class DeviceSummary extends React.Component {
+ class DeviceSummary extends React.Component {
 
   render() {
 
@@ -116,5 +125,14 @@ export default class DeviceSummary extends React.Component {
       </div>
     )
   }
-
+  /*  componentDidMount(){
+          var options = config.default.fetchOptions('POST', 'GetProductList', {})
+          fetch(config.default.product_info, options)
+          .then(res => res.json())
+          .then(json => {
+            var data = json.data.map( m => {m.key=m.id; return m})
+            this.setState({list: data})
+          })
+          .catch(ex => {console.warn("parsed err: " + ex)})
+    }*/
 }

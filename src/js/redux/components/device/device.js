@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { Input, Select, Button, Layout, Table, Icon, Breadcrumb, TreeSelect, Dropdown, Row, Col, Popconfirm, Cascader, InputNumber } from 'antd';
+import { Input, Select, Button, Layout, Table, Icon, Breadcrumb, TreeSelect, Dropdown, Row, Col, Popconfirm, Cascader, InputNumber, Card } from 'antd';
 import Nav from '../common/pc_nav';
 import * as config from 'config/app.config.js';
 import EditableCell from './edit'
@@ -175,43 +175,7 @@ const deviceData = [{
   last_update_time: '2017-01-01 12:00',
   org: '北京科技园生产部',
   location: '* * *',
-}, {
-  id: '9',
-  key: '9',
-  name: { editable: false, value: 'F5809' },
-  type: '固定式',
-  status: '不正常',
-  last_update_time: '2017-01-01 12:00',
-  org: '北京科技园销售部',
-  location: '* * *',
-}, {
-  id: '10',
-  key: '10',
-  name: { editable: false, value: 'F5810' },
-  type: '固定式',
-  status: '不正常',
-  last_update_time: '2017-01-01 12:00',
-  org: '北京A部门',
-  location: '* * *',
-}, {
-  id: '11',
-  key: '11',
-  name: { editable: false, value: 'F5811' },
-  type: '固定式',
-  status: '正常',
-  last_update_time: '2017-01-01 12:00',
-  org: '北京A部门',
-  location: '* * *',
-}, {
-  id: '12',
-  key: '12',
-  name: { editable: false, value: 'F5812' },
-  type: '固定式',
-  status: '未登记',
-  last_update_time: '2017-01-01 12:00',
-  org: '深圳科技园研发部',
-  location: '* * *',
-},];
+}];
 
 
 const Option = Select.Option;
@@ -227,6 +191,41 @@ class TopHeader extends React.Component {
     )
   }
 }
+
+class Summary extends React.Component {
+  render() {
+    return (
+      <div style={{ width: '100%'}}>
+          <Card title="Summary" style={{ width: '100%', minHeight: 240, marginBottom:20}}>
+          <Row gutter={32} style={{ maxWidth: 1500, fontSize: 22, marginTop: 20 }}>
+          
+            <Col span={8}>
+              <div className="gutter-box" style={{ height: 80, backgroundColor: '#98d87d', color: "#fff", borderRadius: 5 }}  >
+                <div style={{ padding: '20px' }}><Icon type="check-circle" /> 活跃设备：<a href="/dm/device"> 666</a></div>
+              </div>
+            </Col>
+
+            <Col span={8}>
+              <div className="gutter-box" style={{ height: 80, backgroundColor: '#f27b71', color: "#fff", borderRadius: 5 }}  >
+
+                <div style={{ padding: '20px' }}><Icon type="close-circle" /> 异常设备： <a href="/dm/device">22</a></div>
+              </div>
+            </Col>
+
+            <Col className="gutter-row" span={8}>
+              <div className="gutter-box" style={{ height: 80, backgroundColor: '#49a9ee', color: "#fff", borderRadius: 5 }}  >
+                <div style={{ padding: '20px' }}> <Icon type="info-circle" /> 未配置设备：<a style={{ color: "#fff" }} href="/dm/device">12</a></div>
+              </div>
+            </Col>
+          </Row>
+        </Card>
+
+      </div>
+    )
+  }
+}
+
+
 
 class FilterHeader extends React.Component {
   constructor(props) {
@@ -352,48 +351,6 @@ class ListDevices extends React.Component {
         current: 1
       },
     };
-
-    const dataS = {
-      "header": {
-        "tokenOperator": sessionStorage.getItem("token") || '',
-        "tokenDevice": ""
-      },
-      "data": {
-        "event_id": "app_dm_get_device_on_line",
-        "param": {
-          "page_id": "1",
-          "page_size": "1"
-        }
-      }
-    };
-
-    $.ajax({
-      url: "http://119.23.132.97:8001/api",
-      type: "POST",
-      cache: false,
-      contentType: "application/json",
-      dataType: "json",
-      data: JSON.stringify(dataS),
-      success: (data) => {
-        let device = {};
-        data.data.map((d) => (
-          device = {
-            id: d.rowno,
-            key: d.rowno,
-            name: d.device_id,
-            last_update_time: d.login_time,
-          }
-        ))
-
-        const dataSource = [...this.state.dataSource]
-        dataSource.unshift(device);
-        this.setState({ dataSource })
-
-      }
-
-    });
-
-
 
     this.onDelete = this.onDelete.bind(this);
     this.handleSelectedDelete = this.handleSelectedDelete.bind(this);
@@ -623,7 +580,7 @@ class ListDevices extends React.Component {
   }
 
   //点击分页数
-  handChange(pagination, filters, sorter) {
+  handleChange(pagination, filters, sorter) {
     const dataSource = this.state.dataSource;
     console.log('Various parameters', pagination, filters, sorter);
 
@@ -641,6 +598,29 @@ class ListDevices extends React.Component {
   }
 
 
+  componentDidMount(){
+    getDeviceList()
+      .done((data) => {
+        console.log(data)
+        data.map((d) => {
+        let device = {};
+          device = {
+            id: d.rowno,
+            key: d.device_id,
+            name: d.device_id,
+            last_update_time: d.login_time,
+          };
+          const dataSource = [...this.state.dataSource];
+          dataSource.push(device);
+          this.setState({ dataSource })
+        })
+      })
+    .fail( msg => {
+      message(msg || '网络异常，请稍后再试')
+    })
+  }
+  
+
   render() {
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
@@ -652,30 +632,29 @@ class ListDevices extends React.Component {
     };
     return (
       <div>
+
         <FilterHeader dataForm={this.state.dataSource}
           onSearch={this.onSearch.bind(this)}
           searchBySelect={this.searchBySelect.bind(this)} />
-
-        <Row gutter={32} style={{ maxWidth: 1500, minWidth: 800, fontSize: 22, margin: 20 }}>
-
-
-          <Col span={2}>
-            {           // <Popconfirm title="设备删除后不能恢复，确定要删除所选设备吗？" 
-              // onConfirm={this.handleSelectedDelete} 
-              // okText="删除" cancelText="取消">
-              //   <Button type="primary" >删除</Button>
-              // </Popconfirm>
-            }
-            <Button >删除</Button>
-          </Col>
-          <Col span={2}>
-            <Button >暂停</Button>
-          </Col>
-          <Col span={2}>
-            <Button>重启</Button>
-          </Col>
-        </Row>
-
+{
+        // <Row gutter={32} style={{ maxWidth: 1500, minWidth: 800, fontSize: 22, margin: 20 }}>
+        //   <Col span={2}>
+        //     {           // <Popconfirm title="设备删除后不能恢复，确定要删除所选设备吗？" 
+        //       // onConfirm={this.handleSelectedDelete} 
+        //       // okText="删除" cancelText="取消">
+        //       //   <Button type="primary" >删除</Button>
+        //       // </Popconfirm>
+        //     }
+        //     <Button >删除</Button>
+        //   </Col>
+        //   <Col span={2}>
+        //     <Button >暂停</Button>
+        //   </Col>
+        //   <Col span={2}>
+        //     <Button>重启</Button>
+        //   </Col>
+        // </Row>
+}
         <div style={{ margin: 20 }}>每页显示数量：
         <InputNumber min={5} defaultValue={this.state.queryInfo.pageSize}
             onChange={this.onSelChange.bind(this)} />
@@ -683,24 +662,15 @@ class ListDevices extends React.Component {
         <Table columns={this.columns}
           dataSource={this.state.dataSource}
           rowSelection={rowSelection} rowKey='id'
-          onChange={this.handChange.bind(this)}
+          onChange={this.handleChange.bind(this)}
           pagination={{ pageSize: this.state.queryInfo.pageSize }}
         />
-
+         <Button><Link to="/dm/device2">查看模拟</Link></Button>
       </div>
     );
   }
 
-  // componentDidMount(){
-  //   getDeviceList()
-  //   .done((data) => {
-  //     //  this.setState({dataSource: data})
-  //     console.log(data)
-  //   })
-  //   .fail( msg => {
-  //     message(msg || '网络异常，请稍后再试')
-  //   })
-  // }
+
 
 }
 

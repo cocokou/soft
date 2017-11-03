@@ -1,72 +1,56 @@
-export default [{
+export default [
+  {
   'key': 'device_management',
-  "name": '设备管理',
+  "name": '位置管理',
   "link": [
-  //   {
-  //   "key": 'DeviceAccess',
-  //   "name": "Summary",
-  //   "link": '/dm/summary'
-  // },
+  {
+    "key": 'RoomAccess',
+    "name": "人员管理",
+    "link": '/dm/room'
+  },
+  {
+    "key": 'DevicePoint',
+    "name": "位置管理",
+    "link": '/dm/position'
+  } ,
+  {
+    "key": 'monitorPoint',
+    "name": "位置monitor",
+    "link": '/dm/devicemonitor'
+  } ,
   {
     "key": 'DeviceViewAccess',
     "name": "设备列表",
     "link": '/dm/device'
-  },{
+  },
+  {
     "key": 'DeviceOrg',
     "name": "部门列表",
     "link": '/dm/org'
-  },{
-    "key": 'TopicAccess',
-    "name": "设备主题",
-    "link": '/dm/topic'
-  }]
-},{
-  'key': 'product_management',
-  "name": '产品管理',
-  "link": [{
-    "key": 'ProductManageAccess',
-    "name": "产品管理",
-    "link": '/pm/product'
-  },{
-    "key": 'ProductMapAccess',
-    "name": "产品地图",
-    "link": '/pm/productmap'
-  }]
-},{
-  "key": 'manu_management',
-  "name": '生产管理',
-  "link": [{
-    "key": "ProcessManageAccess",
-    "name": "生产环节管理",
-    "link": "/mm/process",
-  }]
-},{
+  }
+]
+},
+{
   "key": 'auth_management',
-  "name": '权限管理',
-  "link": [{
-    "key": 'UserManageAccess',
-    "name": '用户管理',
-    "link": '/am/user',
-  },{
-    "key": 'RoleAuthManageAccess',
-    "name": '角色权限管理',
-    "link": '/am/role',
-  },{
-    "key": "DeptRoleManageAccess",
-    "name": "部门角色管理",
-    "link": '/am/deptrole',
-  },{
-    "key": 'SysAuthManageAccess',
-    "name": '系统权限管理',
-    "link": '/am/sysauth'
-  }]
-},{
-  "key": 'test_qrcode',
-  "name": '测试',
-  "role": "visitor",
-  "link": [{
-    "key": "BeltlineManageAccess",
-    "name": '生产线',
-    "link": '/test/beltline'
-  }]
-}]
+  "name": '资产管理',
+  "link": [
+  {
+    "key": 'menuManager',
+    "name": '菜单管理',
+    "link": '/am/menu',
+  
+  },
+  {
+    "key": '系统设置',
+    "name": '系统设置',
+    "link": '/am/test'
+  },
+  {
+    "key": 'emma',
+    "name": '物资编码',
+    "link": '/am/emma'
+  },
+]
+},
+
+]
