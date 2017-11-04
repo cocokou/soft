@@ -17,6 +17,15 @@ let initstate = {
         key: 'tel',
         id:'tel',
         type: 'number'
+    },
+
+    "id": 
+    {
+        title: 'id',
+        dataIndex: 'id',
+        key: 'id',
+        id: 'id',
+        type: 'text' 
     }
 }
 
@@ -24,10 +33,10 @@ let initstate = {
 function fields(state=initstate, action) {
     switch(action.type) {
         case actions.ADD_COLL:{
-            const {id} = action.column;
+            const {id} = action.field;
             return {
                 ...state,
-                [id]:action.column
+                [id]:action.field
               }
         }
         case actions.DEL_COLL:{

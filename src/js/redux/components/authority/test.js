@@ -72,12 +72,14 @@ class CustomerFields extends React.Component {
         this.props.dispatch(addColl(tab));
     }
 
-    onDelete(index) {
-        this.props.dispatch(delColl(index));
-        console.log(index)
+    onDelete(id) {
+        this.props.dispatch(delColl(id));
+        console.log(id)
     }
 
     render() {
+        let {columns} =  this.props
+        // let cols = columns.slice(0,-1)
         return (
             <div>
                 <Layout style={{ padding: '24px 0', background: '#fff' }}>
@@ -99,6 +101,7 @@ class CustomerFields extends React.Component {
                       </div>
 
                         <Table columns={this.columns} bordered
+                            // dataSource={cols}                     
                             dataSource={this.props.columns}                     
                         />
                     </Card>

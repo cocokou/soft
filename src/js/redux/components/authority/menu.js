@@ -92,6 +92,7 @@ export default class TreeManager extends React.Component {
 
         let myData = this.state.myData;
 
+        console.log("values:",values)
         let tab = {
             label: values.value,
             value: values.value,

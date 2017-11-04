@@ -29,9 +29,9 @@ class Customers extends React.Component {
     
             render: (text, record, index) => (
                 <span>
-                <EditModal onEdit={(record)=>this.editCol(record)} title='修改字段' record={record}
+                <EditModal onEdit={(values,record)=>this.editCol(values,record)} title='修改字段' record={record}
                 columns={this.props.columns}/>
-    <span className="ant-divider" />
+  
 
                     <span className="ant-divider" />           
     
@@ -46,19 +46,42 @@ class Customers extends React.Component {
        this.onDelete = this.onDelete.bind(this);
    }
 
-   editCol(record){
-    console.log('going to eidt ', record)
+   editCol(values,record){
+    console.log('received values', values)
+    console.log('going to eidt record', record)
+    // let { columns } = this.props;
+    // let cus = {}
+    // for (let i = 0; i < columns.length; i++) {
+    //     let p = columns[i].id;
+    //     cus.key = values.id
+    //     cus[p] = values[p]
+    // }
+
+    this.state.dataSource.map(v => {
+        if (v.key === values.key){
+            return values;
+        } else {
+            return v;
+        }
+    })
+    this.setState({ dataSource  });
 }
 
     addCus(values) {
         // auto
+
+        console.log("---------->values:",values);
         let { columns } = this.props;
+        let cols = columns.slice(1,-1)
+        console.log("---------->column:",columns);
         let cus = {}
-        for (let i = 0; i < columns.length; i++) {
-            let p = columns[i].id;
-            cus.key = values.id
+        for (let i = 0; i < cols.length; i++) {
+            let p = cols[i].id;
             cus[p] = values[p]
         }
+        cus.key = values.tel
+        
+        console.log("------------->",cus)
 
         let myData = this.state.dataSource;
 
@@ -75,6 +98,8 @@ class Customers extends React.Component {
 
     render() {
         let {columns} = this.props;
+        console.log('111111111',columns)
+        
         columns = [...Object.values(columns),this.opColumn];
    
         return (

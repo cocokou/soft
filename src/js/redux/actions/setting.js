@@ -1,9 +1,9 @@
 export const ADD_COLL = 'ADD_COLL'
 export const DEL_COLL = 'DEL_COLL'
 
-export const addColl = (column) => ({
+export const addColl = (field) => ({
     type: 'ADD_COLL',
-    column
+    field
   })
 
 export const delColl = (id) => ({

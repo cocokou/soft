@@ -11,25 +11,50 @@ class EditSome extends Component {
         super(props);
         this.state = {
             visible: false,
+            record: this.props.record,
         };
         this.open = this.open.bind(this)
     }
+
+    // componentWillReceiveProps(nextProps) {
+    //     if (nextProps.visible !== this.state.visible) {
+    //         this.setState({ visible: nextProps.visible });
+    //         if (nextProps.visible) {
+    //             this.cacheValue = this.state.value;
+    //         }
+    //     }
+    //     if (nextProps.status && nextProps.status !== this.props.status) {
+    //         if (nextProps.status === 'save') {
+    //             this.props.onChange(this.state.value);
+    //         } else if (nextProps.status === 'cancel') {
+    //             this.setState({ value: this.cacheValue });
+    //             this.props.onChange(this.cacheValue);
+    //         }
+    //     }
+    // }
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     return nextProps.visible !== this.state.visible ||
+    //         nextState.value !== this.state.value;
+    // }
 
     open() {
         this.setState({ visible: true })
     }
     handleOk(e) {
         e.preventDefault();
+        let {record} = this.props
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 console.log("handleOk",values);
-                this.props.onEdit(values);
+                console.log('hanleOK.this.record',record)
+                this.props.onEdit(values, record);
             } else {
                 console.log(err)
             }
         });
         this.setState({ visible: false });
-        this.props.form.resetFields()
+        // this.props.form.resetFields()
     }
     handleCancel() {
         this.setState({ visible: false });
@@ -37,8 +62,6 @@ class EditSome extends Component {
 
     render() {
         let {columns} = this.props
-        let fields = columns.slice(0,-1) //去掉操作列
-
         const { getFieldDecorator, getFieldProps } = this.props.form;
         const { visible } = this.state;
         const formItemLayout = {
@@ -51,14 +74,11 @@ class EditSome extends Component {
                 sm: { span: 14 },
             },
         };
-        {console.log('this.props',this.props)}
+
+        let record = this.props.record
         return (
             <div>
-{                // <Button type="primary" 
-                //     onClick={this.open}>{this.props.title}
-                // </Button>
-}                <a href="#" onClick={this.open}><Icon type="edit" /></a>
-
+             <a href="#" onClick={this.open}><Icon type="edit" /></a>
                 <Modal
                     title={this.props.title}
                     visible={this.state.visible}
@@ -69,13 +89,14 @@ class EditSome extends Component {
                         <Form onSubmit={this.handleOk} className="login-form">
 
                         {
-                            fields.map(c=>(
+                            columns.map(c=>(
                                 <FormItem key={c.key}
                                 {...formItemLayout}
                                 label= {c.title}
                                 hasFeedback
                             >
                                 {getFieldDecorator(c.key, {
+                                    initialValue: record[c.key],
                                     rules: [{ required: true, message: '请输入',  }],
                                 })(
                                     <Input />
