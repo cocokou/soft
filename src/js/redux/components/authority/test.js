@@ -4,10 +4,12 @@ import { Collapse, Button, Row, Col, Card, Icon, Form, Input, Modal, Tree, Layou
 import Nav from '../common/pc_nav';
 import { Link } from 'react-router';
 import EditableCell from './edit'
-import { addColl, delColl } from '../../actions/setting'
+import { addColl, delColl,getAllColl } from '../../actions/setting'
 import Add from './Add'
 import EditModal from './EditModal'
 import { connect } from 'react-redux';
+
+import {addColumn, getallcolumn,delColumn,updateColumn} from './columnApi'
 
 const { Content, Sider } = Layout;
 
@@ -23,42 +25,51 @@ class CustomerFields extends React.Component {
             title: '字段 ID',
             dataIndex: 'id',
             key: 'id',
-        },
+        }
         // {
         //     title: '字段类型',
         //     dataIndex: 'type',
         //     key: 'type',
         // },
-        {
+
+        ];
+        this.opColumn = {
             title: '操作',
             key: 'action',
 
             render: (text, record, index) => (
                 <span>
-                
-                  <EditModal onEdit={(record)=>this.editCol(record)} title='修改字段' record={record}
-                  columns={this.columns}/>
-      <span className="ant-divider" />
 
-                    <Popconfirm title="确定删除？" onConfirm={()=>{this.onDelete(record.id)}} placement="leftBottom" okText="删除" cancelText="取消">
+                    <EditModal onEdit={(values, record) => this.editCol(values, record)} title='修改字段' record={record}
+                        columns={this.columns} />
+                    <span className="ant-divider" />
+
+                    <Popconfirm title="确定删除？" onConfirm={() => { this.onDelete(record.id) }} placement="leftBottom" okText="删除" cancelText="取消">
                         <a href="#"> <Icon type="delete" /></a>
                     </Popconfirm>
                 </span>
             ),
-        }
-        ];
+        };
+    }
+    componentDidMount() {
+        getallcolumn("aaa").then(val => {
+            this.props.dispatch(getAllColl(val["data"]));
+        })
     }
 
-    editCol(record){
+    editCol(values, record){
         console.log('going to eidt ', record)
-      //   let tab = {
-      //     title: values.title,
-      //     id: values.id,
-      //     type: values.type,
-      //     key: values.id,
-      //     dataIndex:values.id
-      // };
-      // this.props.dispatch(addColl(tab));
+        console.log('values:',values)
+
+
+        {
+            Object.keys(values).forEach(k => {
+                record[k] = values[k];
+            })
+        }
+        updateColumn("aaa", record.key, record).then(ret => {
+            this.props.dispatch(addColl(record));
+        });
     }
 
     addCol(values) {
@@ -69,17 +80,24 @@ class CustomerFields extends React.Component {
             key: values.id,
             dataIndex:values.id
         };
-        this.props.dispatch(addColl(tab));
+        addColumn('aaa',tab).then(ret => {
+            this.props.dispatch(addColl(tab));
+        });
+        
+
     }
 
     onDelete(id) {
-        this.props.dispatch(delColl(id));
+
         console.log(id)
+        delColumn("aaa",id).then(v => {
+            this.props.dispatch(delColl(id));
+        });
     }
 
     render() {
-        let {columns} =  this.props
-        // let cols = columns.slice(0,-1)
+        let columns = [...this.columns,this.opColumn];
+        getallcolumn('aaa').then(console.log)
         return (
             <div>
                 <Layout style={{ padding: '24px 0', background: '#fff' }}>
@@ -93,14 +111,14 @@ class CustomerFields extends React.Component {
                             <Col span={4}> <h2> 设置 - 学生</h2></Col>                             
                             <Col span={4}>
                             <Add onAdd={(value)=>this.addCol(value)} title='添加字段'
-                            columns={this.columns}/></Col>
+                            columns={columns}/></Col>
 
                             <Col span={6}> <Link to='/am/test2'><h2> 查看效果</h2></Link> </Col>
                         </Row>
                       
                       </div>
 
-                        <Table columns={this.columns} bordered
+                        <Table columns={columns} bordered
                             // dataSource={cols}                     
                             dataSource={this.props.columns}                     
                         />

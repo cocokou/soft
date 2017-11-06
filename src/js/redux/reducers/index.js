@@ -29,8 +29,8 @@ let initstate = {
     }
 }
 
-
-function fields(state=initstate, action) {
+//function fields(state=initstate, action) {
+function fields(state={}, action) {
     switch(action.type) {
         case actions.ADD_COLL:{
             const {id} = action.field;
@@ -48,6 +48,13 @@ function fields(state=initstate, action) {
                     re[item] = state[item];
                     return re;
                 }, {})
+        }
+        case actions.GET_ALL_COLL:{
+            const {columns} = action;
+            return columns.reduce((acc,item)=>{
+                acc[item.id] = item;
+                return acc;
+            },{});
         }
         default:
             return state
